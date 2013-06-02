@@ -1,0 +1,37 @@
+#######################################
+# Syntax Coloring Map for SM5100B_GPRS
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+SM5100B_GPRS	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+initializeModule	KEYWORD2
+attachGPRS	KEYWORD2
+setUpPDPContext KEYWORD2
+activatePDPContext KEYWORD2
+connectToHostTCP KEYWORD2
+checkSocketStatusTCP KEYWORD2
+sendData KEYWORD2
+sendString KEYWORD2
+configureDisplayFormat KEYWORD2
+checkDataSentACK KEYWORD2
+getServerResponse KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+RETURN_TIMEOUT LITERAL1
+SOCKET_READY_TIMEOUT LITERAL1
+PRE_PACKET_SIZE LITERAL1
+GSM_SHOW_HEX LITERAL1
+GSM_SHOW_ASCII LITERAL1
+GSM_ECHO_RESPONSE LITERAL1
+GSM_NOT_ECHO_RESPONSE LITERAL1
