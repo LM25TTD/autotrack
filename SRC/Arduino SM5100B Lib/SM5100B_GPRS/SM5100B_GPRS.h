@@ -5,7 +5,7 @@
 
 #define RETURN_TIMEOUT 5000
 #define SOCKET_READY_TIMEOUT 10000
-#define PRE_PACKET_SIZE 26
+#define PRE_PACKET_SIZE 4
 
 #define GSM_SHOW_HEX 0
 #define GSM_SHOW_ASCII 1
@@ -21,31 +21,29 @@ public:
 	SM5100B_GPRS(short rxpin, short txpin);
 	boolean initializeModule(long int baudrate);
 	boolean attachGPRS();
-	boolean setUpPDPContext(int pdpId, String apn);
-	boolean setUpPDPContext(int pdpId, String apn, String username,
-			String password);
-	boolean activatePDPContext(int pdpId);
-	boolean connectToHostTCP(int connectionId, String hostNameOrIP,
-			String hostPort);
+	boolean setUpPDPContext(byte *pdpId, String *apn);
+	boolean setUpPDPContext(byte *pdpId, String *apn, String *username,
+			String *password);
+	boolean activatePDPContext(byte *pdpId);
+	boolean connectToHostTCP(byte *connectionId, String *hostNameOrIP,
+			int *hostPort);
 	boolean checkSocketStatusTCP();
-	boolean sendData(String data, int connectionId, String server,
-			String userAgent);
-	boolean sendString(String stringToSend, int connectionId, String server,
-			String userAgent);
-	boolean configureDisplayFormat(int connectionId, int state, int mode);
-	boolean checkDataSentACK(int dataLength);
-	String getServerResponse(int connectionId);
-	boolean dataStart(int connectionId);
-	boolean dataStop(int connectionId);
+	boolean sendData(String *data, byte *connectionId);
+	boolean sendString(String *stringToSend, byte *connectionId);
+	boolean configureDisplayFormat(byte *connectionId, byte state, byte mode);
+	boolean checkDataSentACK(int *dataLength);
+	String getServerResponse(byte *connectionId);
+	boolean dataStart(byte *connectionId);
+	boolean dataStop(byte *connectionId);
 	boolean cleanCounters();
 	boolean waitUntil(String forCompare);
 private:
 	boolean waitFor(String forCompare);
 	boolean waitFor(char c);
 	String getMessage();
-	int checkSocketString(String socketString);
-	short nthIndexOf(short n, char c, String s);
-	short socketStringSlice(short n, String s);
+	int checkSocketString(String *socketString);
+	short nthIndexOf(short n, char c, String *s);
+	short socketStringSlice(short n, String *s);
 };
 
 #endif /* SM5100B_GPRS_H_ */

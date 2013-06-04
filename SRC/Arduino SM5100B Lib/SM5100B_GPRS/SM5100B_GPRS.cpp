@@ -46,12 +46,12 @@ boolean SM5100B_GPRS::attachGPRS()
 	return (success);
 }
 
-boolean SM5100B_GPRS::setUpPDPContext(int pdpId, String apn)
+boolean SM5100B_GPRS::setUpPDPContext(byte *pdpId, String *apn)
 {
 #ifdef DEBUG
 	Serial.println("Setting up PDP Context...");
 #endif
-	this->println("AT+CGDCONT=" + String(pdpId) + ",\"IP\",\"" + apn + "\"");
+	this->println("AT+CGDCONT=" + String(*pdpId) + ",\"IP\",\"" + *apn + "\"");
 	boolean success = waitFor("OK");
 #ifdef DEBUG
 	if (success)
@@ -66,17 +66,17 @@ boolean SM5100B_GPRS::setUpPDPContext(int pdpId, String apn)
 	return (success);
 }
 
-boolean SM5100B_GPRS::setUpPDPContext(int pdpId, String apn, String username,
-		String password)
+boolean SM5100B_GPRS::setUpPDPContext(byte *pdpId, String *apn,
+		String *username, String *password)
 {
 #ifdef DEBUG
 	Serial.println("Setting up PDP Context...");
 #endif
-	this->println("AT+CGDCONT=" + String(pdpId) + ",\"IP\",\"" + apn + "\"");
+	this->println("AT+CGDCONT=" + String(*pdpId) + ",\"IP\",\"" + *apn + "\"");
 	boolean success = waitFor("OK");
 	this->println(
-			"AT+CGPCO=0,\"" + username + "\",\"" + password + "\","
-					+ String(pdpId));
+			"AT+CGPCO=0,\"" + *username + "\",\"" + *password + "\","
+					+ String(*pdpId));
 	success = (success && waitFor("OK"));
 #ifdef DEBUG
 	if (success)
@@ -91,12 +91,12 @@ boolean SM5100B_GPRS::setUpPDPContext(int pdpId, String apn, String username,
 	return (success);
 }
 
-boolean SM5100B_GPRS::activatePDPContext(int pdpId)
+boolean SM5100B_GPRS::activatePDPContext(byte *pdpId)
 {
 #ifdef DEBUG
 	Serial.println("Activating PDP Context...");
 #endif
-	this->println("AT+CGACT=1," + String(pdpId));
+	this->println("AT+CGACT=1," + String(*pdpId));
 	boolean success = waitFor("OK");
 #ifdef DEBUG
 	if (success)
@@ -111,14 +111,15 @@ boolean SM5100B_GPRS::activatePDPContext(int pdpId)
 	return (success);
 }
 
-boolean SM5100B_GPRS::connectToHostTCP(int connectionId, String hostNameOrIP,
-		String hostPort)
+boolean SM5100B_GPRS::connectToHostTCP(byte *connectionId, String *hostNameOrIP,
+		int *hostPort)
 {
 #ifdef DEBUG
 	Serial.println("Connecting to host...");
 #endif
 	this->println(
-			"AT+SDATACONF=1,\"TCP\",\"" + hostNameOrIP + "\"," + hostPort);
+			"AT+SDATACONF=1,\"TCP\",\"" + *hostNameOrIP + "\","
+					+ String(*hostPort));
 	boolean success = waitFor("OK");
 	success = (success && dataStart(connectionId));
 	delay(5000);
@@ -135,15 +136,15 @@ boolean SM5100B_GPRS::connectToHostTCP(int connectionId, String hostNameOrIP,
 	return (success);
 }
 
-boolean SM5100B_GPRS::dataStart(int connectionId)
+boolean SM5100B_GPRS::dataStart(byte *connectionId)
 {
-	this->println("AT+SDATASTART=" + String(connectionId) + ",1");
+	this->println("AT+SDATASTART=" + String(*connectionId) + ",1");
 	return (waitFor("OK"));
 }
 
-boolean SM5100B_GPRS::dataStop(int connectionId)
+boolean SM5100B_GPRS::dataStop(byte *connectionId)
 {
-	this->println("AT+SDATASTART=" + String(connectionId) + ",0");
+	this->println("AT+SDATASTART=" + String(*connectionId) + ",0");
 	return (waitFor("OK"));
 }
 
@@ -193,25 +194,21 @@ boolean SM5100B_GPRS::checkSocketStatusTCP()
 	}
 }
 
-boolean SM5100B_GPRS::sendData(String data, int connectionId, String server,
-		String userAgent)
+boolean SM5100B_GPRS::sendData(String *data, byte *connectionId)
 {
 #ifdef DEBUG
 	Serial.println("Sending HTTP packet...");
 #endif
-	int packetLength = PRE_PACKET_SIZE + data.length() + server.length()
-			+ userAgent.length();
+	int packetLength = PRE_PACKET_SIZE + data->length();
 
 	this->print(
-			"AT+SDATATSEND=" + String(connectionId) + "," + String(packetLength)
-					+ "\r");
+			"AT+SDATATSEND=" + String(*connectionId) + ","
+					+ String(packetLength) + "\r");
 	waitFor('>');
-	this->print(data + "\r\n");
-	this->print("Host: " + server + "\r\n");
-	this->print("User-Agent: " + userAgent + "\r\n\r\n");
+	this->print(*data + "\r\n\r\n");
 	this->write(26);
 	boolean success = waitFor("OK");
-	success = (success && checkDataSentACK(packetLength));
+	success = (success && checkDataSentACK(&packetLength));
 #ifdef DEBUG
 	if (success)
 	{
@@ -225,20 +222,17 @@ boolean SM5100B_GPRS::sendData(String data, int connectionId, String server,
 	return (success);
 }
 
-boolean SM5100B_GPRS::sendString(String stringToSend, int connectionId,
-		String server, String userAgent)
+boolean SM5100B_GPRS::sendString(String *stringToSend, byte *connectionId)
 {
 #ifdef DEBUG
 	Serial.println("Sending HTTP string...");
 #endif
-
-	stringToSend += "Host: " + server + "\r\n";
-	stringToSend += "User-Agent: " + userAgent + "\r\n\r\n";
-
-	this->println("AT+SSTRSEND=" + String(connectionId) + "," + stringToSend);
+	this->print(
+			"AT+SSTRSEND=" + String(*connectionId) + ",\"" + *stringToSend
+					+ "\"\r");
 	boolean success = waitFor("OK");
-	success = (success
-			&& checkDataSentACK(PRE_PACKET_SIZE + stringToSend.length()));
+	int length = (PRE_PACKET_SIZE + stringToSend->length());
+	success = (success && checkDataSentACK(&length));
 #ifdef DEBUG
 	if (success)
 	{
@@ -252,14 +246,14 @@ boolean SM5100B_GPRS::sendString(String stringToSend, int connectionId,
 	return (success);
 }
 
-boolean SM5100B_GPRS::configureDisplayFormat(int connectionId, int state,
-		int mode)
+boolean SM5100B_GPRS::configureDisplayFormat(byte *connectionId, byte state,
+		byte mode)
 {
 #ifdef DEBUG
 	Serial.println("Configuring data display format...");
 #endif
 	this->println(
-			"AT+SDATARXMD=" + String(connectionId) + "," + String(state) + ","
+			"AT+SDATARXMD=" + String(*connectionId) + "," + String(state) + ","
 					+ String(mode));
 	boolean success = waitFor("OK");
 #ifdef DEBUG
@@ -275,7 +269,7 @@ boolean SM5100B_GPRS::configureDisplayFormat(int connectionId, int state,
 	return (success);
 }
 
-boolean SM5100B_GPRS::checkDataSentACK(int dataLength)
+boolean SM5100B_GPRS::checkDataSentACK(int *dataLength)
 {
 	unsigned long checkTimeout = millis();
 	String s = "";
@@ -294,7 +288,7 @@ boolean SM5100B_GPRS::checkDataSentACK(int dataLength)
 #endif
 			return (false);
 		}
-		if (checkSocketString(s) >= dataLength)
+		if (checkSocketString(&s) >= *dataLength)
 		{
 			return (true);
 		}
@@ -311,12 +305,12 @@ boolean SM5100B_GPRS::checkDataSentACK(int dataLength)
 	}
 }
 
-String SM5100B_GPRS::getServerResponse(int connectionId)
+String SM5100B_GPRS::getServerResponse(byte *connectionId)
 {
 #ifdef DEBUG
 	Serial.println("Reading data from server...");
 #endif
-	this->println("AT+SDATAREAD=" + String(connectionId));
+	this->println("AT+SDATAREAD=" + String(*connectionId));
 	String responseFromServer = getMessage();
 	return (responseFromServer);
 }
@@ -390,7 +384,7 @@ String SM5100B_GPRS::getMessage()
 	return (s);
 }
 
-int SM5100B_GPRS::checkSocketString(String s)
+int SM5100B_GPRS::checkSocketString(String *s)
 {
 	if (socketStringSlice(3, s) == 0)
 		return (0);
@@ -400,19 +394,19 @@ int SM5100B_GPRS::checkSocketString(String s)
 		return (0);
 }
 
-short SM5100B_GPRS::nthIndexOf(short n, char c, String s)
+short SM5100B_GPRS::nthIndexOf(short n, char c, String *s)
 {
 	short index = 0;
 	for (short i = 0; i <= n; i++)
 	{
-		index = s.indexOf(c, index + 1);
+		index = s->indexOf(c, index + 1);
 	}
 	return (index);
 }
 
-short SM5100B_GPRS::socketStringSlice(short n, String s)
+short SM5100B_GPRS::socketStringSlice(short n, String *s)
 {
-	String slice = s.substring(nthIndexOf(n - 1, ',', s) + 1,
+	String slice = s->substring(nthIndexOf(n - 1, ',', s) + 1,
 			nthIndexOf(n, ',', s));
 	char cArray[slice.length() + 1];
 	slice.toCharArray(cArray, sizeof(cArray));
