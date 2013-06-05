@@ -1,6 +1,7 @@
 #include <SoftwareSerial.h>
 #include <SM5100B_GPRS.h>
 #include <TinyGPS.h>
+#include <EEPROM.h>
 #include <avr/pgmspace.h>
 
 #define DEBUG_MESSAGES
@@ -12,6 +13,17 @@
 #define GPS_RX_PIN 5
 #define GPS_T_OUT 5000
 
+#define TIME_TO_SEND 60000
+
+#define STATE_PERM_DATA_ADDR 0
+#define STATE_UNBLOCKED LOW 
+#define STATE_BLOCKED HIGH
+#define IO_PIN  12
+#define ALARM_STATUS_PIN 10
+
+#define BLOCK_MESSAGE "BLOCK"
+#define UNBLOCK_MESSAGE "UNBLOCK"
+
 
 TinyGPS gps;
 SM5100B_GPRS cell(GSM_TX_PIN, GSM_RX_PIN);  
@@ -19,7 +31,7 @@ SoftwareSerial gpsCommunicator(GPS_TX_PIN, GPS_RX_PIN);
 
 
 String USER_AGENT = "Mozilla/5.0";
-String HOST = "201.8.178.230";
+String HOST = "lm25ttd.no-ip.org";
 int PORT = 8229;
 
 String apn = "tim.br";
@@ -31,6 +43,8 @@ byte pdpId = 1;
 byte connectionId = 1;
 
 byte numOfErrors=0;
+
+byte moduleState = STATE_UNBLOCKED;
 
 float actualLatitude = 0.0f;
 float actualLongitude = 0.0f;
@@ -110,6 +124,7 @@ boolean sendMessageToServer(String *request, byte *connectionId)
 #ifdef DEBUG_MESSAGES
       Serial.println(F("SendData"));
 #endif
+      delay(5000);
       responseFromServer = cell.getServerResponse(connectionId);        
       cell.cleanCounters();
       return (true);
@@ -177,6 +192,8 @@ String buildJsonContent(float *latitude, float *longitude)
   jsonContent += "\",\"long\":\"";
   dtostrf(*longitude, 1, 4, longConverted);
   jsonContent += longConverted;
+  jsonContent += "\",\"alarm\":\"";
+  jsonContent += digitalRead(ALARM_STATUS_PIN); 
   jsonContent += "\"}";
 
   return jsonContent;
@@ -197,6 +214,11 @@ static bool feedGps()
 
 void setup()
 {
+  pinMode(IO_PIN, OUTPUT);
+  moduleState = EEPROM.read(STATE_PERM_DATA_ADDR);
+  digitalWrite(IO_PIN, moduleState);
+
+  pinMode(ALARM_STATUS_PIN, INPUT);
 #ifdef DEBUG_MESSAGES  
   Serial.begin(9600);
 #endif  
@@ -209,6 +231,28 @@ void setup()
 #endif
 }
 
+void treatServerResponse(String *response)
+{
+  if (response->substring(8, response->length())==BLOCK_MESSAGE)
+  {
+    if(moduleState!=STATE_BLOCKED)
+    {
+      moduleState=STATE_BLOCKED;
+      EEPROM.write(STATE_PERM_DATA_ADDR, moduleState);
+      digitalWrite(IO_PIN, moduleState);
+    }
+  }
+
+  if (response->substring(8, response->length())==UNBLOCK_MESSAGE)
+  {
+    if(moduleState!=STATE_UNBLOCKED)
+    {
+      moduleState=STATE_UNBLOCKED;
+      EEPROM.write(STATE_PERM_DATA_ADDR, STATE_UNBLOCKED);
+      digitalWrite(IO_PIN, moduleState);
+    }
+  }  
+}
 
 void loop()
 { 
@@ -223,20 +267,14 @@ void loop()
 
   if(doPost(&connectionId, &path, &actualLatitude, &actualLongitude))
   {
+    treatServerResponse(&responseFromServer);
 #ifdef DEBUG_MESSAGES
     Serial.println(F("Delay"));
 #endif
-    delay(25000);
+    delay(TIME_TO_SEND);
   }
+#ifdef DEBUG_MESSAGES
   Serial.println(responseFromServer);
+#endif  
   responseFromServer = ""; 
 }
-
-
-
-
-
-
-
-
-
