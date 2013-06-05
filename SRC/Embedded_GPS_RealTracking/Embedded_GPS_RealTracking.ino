@@ -3,6 +3,8 @@
 #include <TinyGPS.h>
 #include <avr/pgmspace.h>
 
+#define DEBUG_MESSAGES
+
 #define MAX_NUM_ERRORS 20
 #define GSM_TX_PIN 2
 #define GSM_RX_PIN 3
@@ -37,13 +39,19 @@ void attachNetwork()
 {
   if (cell.attachGPRS())
   {
+#ifdef DEBUG_MESSAGES
     Serial.println(F("GPRS"));
+#endif
     if(cell.setUpPDPContext(&pdpId, &apn, &user, &password))
     {
+#ifdef DEBUG_MESSAGES
       Serial.println(F("SetPDP"));
+#endif
       if(cell.activatePDPContext(&pdpId))
       {
+#ifdef DEBUG_MESSAGES
         Serial.println(F("ActivePDP"));
+#endif
       }
     }
   }
@@ -53,10 +61,14 @@ void createSocket()
 {
   if(cell.connectToHostTCP(&connectionId, &HOST, &PORT))
   {
+#ifdef DEBUG_MESSAGES
     Serial.println(F("Connect"));
+#endif
     if(cell.configureDisplayFormat(&connectionId, GSM_SHOW_ASCII, GSM_NOT_ECHO_RESPONSE))
     {
+#ifdef DEBUG_MESSAGES
       Serial.println(F("Display"));      
+#endif
     }
   } 
 }
@@ -64,12 +76,16 @@ void createSocket()
 
 void rebootGSMProcedure()
 {
+#ifdef DEBUG_MESSAGES  
   Serial.println(F("Rebooting GSM..."));
+#endif
   cell.listen();
   delay(5000);
   attachNetwork();
-  createSocket();   
+  createSocket();
+#ifdef DEBUG_MESSAGES  
   Serial.println(F("Reboot GSM complete..."));  
+#endif
 }
 
 void signalizeError()
@@ -86,10 +102,14 @@ boolean sendMessageToServer(String *request, byte *connectionId)
   if(cell.checkSocketStatusTCP())
   {
     numOfErrors=0;
+#ifdef DEBUG_MESSAGES
     Serial.println(F("Socket is Open"));
+#endif
     if(cell.sendData(request, connectionId))
     {
+#ifdef DEBUG_MESSAGES
       Serial.println(F("SendData"));
+#endif
       responseFromServer = cell.getServerResponse(connectionId);        
       cell.cleanCounters();
       return (true);
@@ -97,13 +117,17 @@ boolean sendMessageToServer(String *request, byte *connectionId)
     else
     {
       signalizeError();
+#ifdef DEBUG_MESSAGES
       Serial.println(F("FAIL!!! SendData"));
+#endif
       return (false);
     }
   }
   else
   {
+#ifdef DEBUG_MESSAGES
     Serial.println(F("Fail on Socket Status!"));
+#endif
     while(!cell.dataStart(connectionId))
     {  
       signalizeError();
@@ -173,12 +197,16 @@ static bool feedGps()
 
 void setup()
 {
-  Serial.begin(9600);  
+#ifdef DEBUG_MESSAGES  
+  Serial.begin(9600);
+#endif  
   cell.initializeModule(9600);
   attachNetwork();
   createSocket();
   gpsCommunicator.begin(4800);
+#ifdef DEBUG_MESSAGES  
   Serial.println(F("Setup Ok!"));
+#endif
 }
 
 
@@ -195,7 +223,9 @@ void loop()
 
   if(doPost(&connectionId, &path, &actualLatitude, &actualLongitude))
   {
+#ifdef DEBUG_MESSAGES
     Serial.println(F("Delay"));
+#endif
     delay(25000);
   }
   Serial.println(responseFromServer);
