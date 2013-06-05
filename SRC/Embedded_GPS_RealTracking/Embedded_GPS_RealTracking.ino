@@ -1,41 +1,49 @@
 #include <SoftwareSerial.h>
 #include <SM5100B_GPRS.h>
+#include <TinyGPS.h>
+#include <avr/pgmspace.h>
 
+#define MAX_NUM_ERRORS 20
+#define GSM_TX_PIN 2
+#define GSM_RX_PIN 3
+#define GPS_TX_PIN 4
+#define GPS_RX_PIN 5
+#define GPS_T_OUT 5000
+
+
+TinyGPS gps;
+SM5100B_GPRS cell(GSM_TX_PIN, GSM_RX_PIN);  
+SoftwareSerial gpsCommunicator(GPS_TX_PIN, GPS_RX_PIN);
 
 
 String USER_AGENT = "Mozilla/5.0";
-String HOST = "179.236.72.52";
+String HOST = "201.8.178.230";
 int PORT = 8229;
-
-
-SM5100B_GPRS cell(2,3);  
 
 String apn = "tim.br";
 String user = "tim";
 String password = "tim";
 String path = "/";
 String responseFromServer = "";
-
 byte pdpId = 1;
 byte connectionId = 1;
+
 byte numOfErrors=0;
 
 float actualLatitude = 0.0f;
 float actualLongitude = 0.0f;
 
-
-
 void attachNetwork()
 {
   if (cell.attachGPRS())
   {
-    Serial.println("GPRS");
+    Serial.println(F("GPRS"));
     if(cell.setUpPDPContext(&pdpId, &apn, &user, &password))
     {
-      Serial.println("SetPDP");
+      Serial.println(F("SetPDP"));
       if(cell.activatePDPContext(&pdpId))
       {
-        Serial.println("ActivePDP");
+        Serial.println(F("ActivePDP"));
       }
     }
   }
@@ -45,10 +53,10 @@ void createSocket()
 {
   if(cell.connectToHostTCP(&connectionId, &HOST, &PORT))
   {
-    Serial.println("Connect");
+    Serial.println(F("Connect"));
     if(cell.configureDisplayFormat(&connectionId, GSM_SHOW_ASCII, GSM_NOT_ECHO_RESPONSE))
     {
-      Serial.println("Display");      
+      Serial.println(F("Display"));      
     }
   } 
 }
@@ -56,56 +64,59 @@ void createSocket()
 
 void rebootGSMProcedure()
 {
-  Serial.println("Rebooting GSM...");
+  Serial.println(F("Rebooting GSM..."));
+  cell.listen();
+  delay(5000);
   attachNetwork();
   createSocket();   
-  Serial.println("Reboot GSM complete...");  
+  Serial.println(F("Reboot GSM complete..."));  
 }
 
 void signalizeError()
 {
   numOfErrors++;
-  if(numOfErrors>20)
+  if(numOfErrors>MAX_NUM_ERRORS)
   {
     rebootGSMProcedure();
   } 
 }
 
-void sendMessageToServer(String *request, byte *connectionId)
+boolean sendMessageToServer(String *request, byte *connectionId)
 {     
   if(cell.checkSocketStatusTCP())
   {
     numOfErrors=0;
-    Serial.println("Socket is Open");
+    Serial.println(F("Socket is Open"));
     if(cell.sendData(request, connectionId))
     {
-      Serial.println("SendData");
+      Serial.println(F("SendData"));
       responseFromServer = cell.getServerResponse(connectionId);        
       cell.cleanCounters();
-      Serial.println("Delay");
-      delay(25000);
+      return (true);
     }
     else
     {
       signalizeError();
-      Serial.println("FAIL!!! SendData");
+      Serial.println(F("FAIL!!! SendData"));
+      return (false);
     }
   }
   else
   {
-    Serial.println("Fail on Socket Status!");
+    Serial.println(F("Fail on Socket Status!"));
     while(!cell.dataStart(connectionId))
     {  
       signalizeError();
     }  
     signalizeError();
-    cell.cleanCounters();     
+    cell.cleanCounters();
+    return (false);    
   }
   delay(100); 
 }
 
 
-void doPost(byte *connectionId, String *path, float *latitude, float *longitude)
+boolean doPost(byte *connectionId, String *path, float *latitude, float *longitude)
 {
   String request = "";
   String parameters = buildJsonContent(latitude, longitude);
@@ -122,7 +133,7 @@ void doPost(byte *connectionId, String *path, float *latitude, float *longitude)
   request += "Content-Type: application/json\n\n";
   request += parameters;
 
-  sendMessageToServer(&request, connectionId);  
+  return sendMessageToServer(&request, connectionId);  
 }
 
 String buildJsonContent(float *latitude, float *longitude)
@@ -147,26 +158,50 @@ String buildJsonContent(float *latitude, float *longitude)
   return jsonContent;
 }
 
+static bool feedGps()
+{
+  unsigned long checker = millis();
+  while (true)
+  {
+    if (gpsCommunicator.available() && gps.encode(gpsCommunicator.read()))
+      return true;
+    if((millis()-checker)>GPS_T_OUT)
+      return false;  
+  }
+}  
+
+
 void setup()
 {
   Serial.begin(9600);  
   cell.initializeModule(9600);
   attachNetwork();
-  createSocket();   
-  Serial.println("Setup Ok!");
+  createSocket();
+  gpsCommunicator.begin(4800);
+  Serial.println(F("Setup Ok!"));
 }
 
 
 void loop()
-{
-  actualLatitude = 1.0005f;
-  actualLongitude =  -1.045785f;
+{ 
+  gpsCommunicator.listen();
+  delay(5000);
 
-  doPost(&connectionId, &path, &actualLatitude, &actualLongitude);
+  if(feedGps())
+    gps.f_get_position(&actualLatitude, &actualLongitude);  
 
-  responseFromServer = "";
+  cell.listen();
+  delay(5000);
 
+  if(doPost(&connectionId, &path, &actualLatitude, &actualLongitude))
+  {
+    Serial.println(F("Delay"));
+    delay(25000);
+  }
+  Serial.println(responseFromServer);
+  responseFromServer = ""; 
 }
+
 
 
 

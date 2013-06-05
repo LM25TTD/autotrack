@@ -2,6 +2,7 @@
 #define SM5100B_GPRS_H_
 #include "Arduino.h"
 #include <SoftwareSerial.h>
+#include <avr/pgmspace.h>
 
 #define RETURN_TIMEOUT 5000
 #define SOCKET_READY_TIMEOUT 10000
