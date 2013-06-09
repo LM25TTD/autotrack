@@ -1,0 +1,561 @@
+
+body {
+	font-size: 11px;
+	font-family: helvetica;
+}
+
+A:VISITED {
+	border: white none;
+}
+
+IMG {
+	border: 0px;
+}
+
+.fieldMoedaDispendio {
+	width: 70px;
+	text-align: right;
+}
+
+.cssBtn {
+	font-family: "Arial";
+	font-size: 12;
+	color: #264766;
+	font-weight: bold;
+	background-color: #eeeeec;
+	border-left: 1px solid #a3d4ff;
+	border-right: 1px solid #a3d4ff;
+	border-top: 1px solid #a3d4ff;
+	border-bottom: 1px solid #a3d4ff;
+	margin-left: 5px;
+	width: 70px;
+}
+
+.cssBtnPrincipais {
+	font-family: "Arial";
+	font-size: 12;
+	color: #264766;
+	font-weight: bold;
+	background-color: #eeeeec;
+	border-left: 1px solid #a3d4ff;
+	border-right: 1px solid #a3d4ff;
+	border-top: 1px solid #a3d4ff;
+	border-bottom: 1px solid #a3d4ff;
+	margin-left: 5px;
+}
+
+.cssComponente {
+	font-family: "Arial";
+	font-size: 12;
+	color: #25455c;
+	background-color: #eef2fb;
+	font-weight: bold;
+}
+
+.cssTopico {
+	font-family: "Arial";
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+}
+
+.cssTopico2 {
+	font-family: "Arial";
+	font-size: 14px;
+	color: #000000;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.cssLinhaEscura {
+	background-color: #c7dfff;
+	height: 15;
+}
+
+.cssLinhaClara {
+	background-color: #edf5fe;
+	height: 15;
+}
+
+.cssTab {
+	background-color: #E9EFF4;
+	vertical-align: top;
+}
+
+.cssDiv {
+	overflow: auto;
+	border: 1px solid;
+	background-color: white;
+}
+
+a:LINK {
+	color: #000000;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+a:VISITED {
+	color: #000000;
+}
+
+a:HOVER {
+	text-decoration: underline;
+}
+
+.css-messagem-sucesso {
+	color: #000099;
+	font-weight: bold;
+}
+
+.css-messagem-erro {
+	color: #de3300;
+	font-weight: bold;
+}
+
+.cssTextoCorpo {
+	font-family: Arial;
+	font-size: 12px;
+}
+
+.cssTextoTitulo {
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.css-titulo {
+	font-family: Arial;
+	font-size: 20px;
+	font-weight: italic;
+}
+
+.cssCenterGrid {
+	vertical-align: top;
+}
+
+/*#F6F9FB*/
+.cssLinhaEscuraCabecalho {
+	background-color: #73aaff;
+	height: 15;
+}
+
+.cssTabela {
+	font-family: "Arial";
+	font-size: 12px;
+	color: black;
+	font-weight: bold;
+}
+
+.cssCampo {
+	font-family: "Arial";
+	font-size: 12;
+	color: #000000;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+.cssArvoreTextField {
+	font-family: "Arial";
+	font-size: 12;
+	color: #000000;
+	font-weight: normal;
+	text-decoration: none;
+	border: solid 1px;
+	border-color: gray;
+}
+
+.cssObservacao {
+	font-family: "Arial";
+	font-size: 11px;
+	color: black;
+	font-weight: normal;
+}
+
+.cssColumn {
+	width: 100%;
+}
+
+.barra-navegacao,FONT {
+	color: #FF6600;
+	font-weight: bold;
+}
+
+.barra-navegacao a:LINK {
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.barra-navegacao a:HOVER {
+	color: blue;
+	text-decoration: underline;
+}
+
+.link-itens a:hover {
+	color: blue;
+	text-decoration: underline;
+}
+
+.dragclass {
+	position: fixed;
+	position: absolute;
+	cursor: move;
+	left: 900px;
+}
+
+.dragclass .conteudo {
+	position: relative;
+}
+
+.opaco {
+	position: fixed;
+	position: absolute;
+	opacity: 0.40;
+	filter: alpha(opacity = 40);
+}
+
+.fixo-absoluto {
+	position: fixed;
+	position: absolute;
+}
+
+.css-cabecalho {
+	max-height: 150px;
+	height: 150px;
+	background-color:#ECEBEB;
+	
+}
+
+.css-rodape {
+	height: 200px;
+	background: #ECEBEB;
+	text-align: center;
+	vertical-align: middle;
+	color: black;
+	
+}
+
+.css-link-menu {
+	color: black !important;
+	font-weight: bold !important;
+}
+
+.css-link {
+	color: blue !important;
+	font-weight: bold !important;
+}
+
+.tabela-item-top-menu a:link {
+	font-size: 12px;
+	font-weight: bold !important;
+}
+
+.tabela-item-top-menu td {
+	font-size: 12px;
+	font-weight: bold !important;
+}
+
+.tabela-sub-item-top-menu a:link {
+	font-weight: bold !important;
+}
+
+.tabela-sub-item-top-menu td {
+	font-weight: bold !important;
+}
+
+.celula-normal {
+	
+}
+
+.cssManagerTitle{
+	font-weight: bold;
+	font-size: 64;
+	color: #E0E0E0;
+}
+
+.css-label {
+	font-weight: bold;
+}
+
+.css-label-enquete {
+	font-weight: bold;
+	font-size: 12px;
+	
+}
+
+.css-biglabel {
+	font-weight: bold;
+	font-size: 14;
+}
+
+.css-welcome-message {
+	font-weight: bold;
+	font-size: 24px;
+	font-family: helvetica;
+	font-style: italic;
+}
+
+.css-dado {
+	font-weight: normal;
+}
+
+.fieldset-border {
+	border: 2px solid #FF4C01;
+	-moz-border-radius: 15px;
+}
+
+.fieldset-border-formulario {
+	border: 1px solid #FF4C01;
+	-moz-border-radius: 15px;
+}
+
+.fieldset-border-formulario table {
+	padding-left: 0px;
+}
+
+.fieldset-border-formulario legend {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.fieldset-border-sem-padding {
+	border: 1px solid #FF4C01;
+	-moz-border-radius: 15px;
+}
+
+.fieldset-border-sem-padding legend {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.legenda-field-set-principal {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.zero-padding {
+	padding: 0px !important;
+}
+
+.legenda-campo {
+	font-size: 10px;
+	font-style: italic;
+	color: gray;	
+}
+
+.legenda-campo-grande{
+	font-size: 12px;
+	font-style: italic;
+	color: #363636;
+	
+}
+
+.legenda-campo-verde {
+	font-family: helvetica;
+	font-size: 12px;
+	font-style: italic;
+	color: green;
+	font-weight: bold;
+}
+
+.coluna-input span {
+	border: 0px !important;
+}
+
+.class-input-produto {
+	width: 550px !important;
+	height: 20px;
+	border-bottom: 1px solid gray !important;
+}
+
+.class-popup-produto div {
+	width: 550px !important;
+}
+
+.label-class {
+	font-weight: bold;
+	position: 20px;
+	padding-left: 2px;
+}
+
+.checkbox-class {
+	font-weight: bold;
+	position: 20px;
+	padding-left: 2px;
+	font-size: 10px;
+}
+
+.label-ou-class {
+	font-weight: bold;
+	position: 20px;
+	padding-right: 10px;
+}
+
+.label-info-class{
+	font-weight: bold;
+	position: 10px;
+	padding-left: 2px;
+}
+
+.rotina-class {
+	font-weight: bold;
+	font-size: 14px;
+	color: green;
+}
+
+.data-class {
+	text-align: right;
+	font-size: 13px;
+}
+
+
+
+.align-left{
+	text-align: left;
+}
+.align-right{
+	text-align: right;
+}
+.align-center{
+	text-align: center;
+}
+.treeTable-pai{
+	text-align: center;
+	font-weight: bold;
+}
+
+.treeTable-pai2{
+	font-weight: bold;
+}
+
+.textoLink{
+	color: black; 
+	font-weight: bold; 
+	font-size: 12px;
+}
+.textoLink:HOVER {
+	color: white;
+	text-decoration: none !important;
+}
+.modal_ext {
+	position: absolute;
+	position:fixed;
+	width: 100%;
+	height: 100%;
+}
+.modal_table {
+	margin: 0 auto;
+	vertical-align: top !important;
+	-moz-border-radius: 10px; 
+	border: 2px solid green; 
+	background-color: white;
+}
+.modal_bar {
+	text-align: center;
+	
+	-moz-border-radius: 5px; 
+	height: 22px;
+	   /* IE */
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#551A8B, endColorstr=#8968CD)";
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#93DB70, endColorstr=#215E21);
+    /* Mozilla */
+    background: -moz-linear-gradient(top, #93DB70,#215E21 ) repeat-X;
+    /* Safari, Google Chrome */
+    background: -webkit-gradient(linear, left top, left bottom, from(#93DB70), to(#215E21)) repeat-X;
+	
+}
+.label-modal {
+	font-weight: bold;
+	font-size: 10pt;
+}
+
+.css-texto-orientacao-pagina {
+	font-size: 14px;
+	font-family: Arial;
+	font-weight: bold;
+	color: black;
+}
+
+.css-texto-orientacao-pagina .item-atual {
+	color: #FF6600;
+}
+
+.css-painel-logon{
+	left:229px;
+	top:297px;
+	width:593px;
+	height:311px;
+	z-index:4;
+	background-color:#EEEEEE;
+	opacity:1.0;
+	filter:alpha(opacity=100);
+	border:1px solid #000;
+	-moz-border-radius:0px;
+	-webkit-border-radius:0px;
+}
+
+.css-logon-subtitle{
+	left:189px;
+	top:15px;
+	width:307px;
+	height:33px;
+	z-index:5;
+	font-size: 24px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+	text-align:center;
+	color:#000000;
+}
+
+.css-visitante-nome{
+	left:38px;
+	top:65px;
+	width:184.8px;
+	height:21px;
+	z-index:6;
+	font-size: 13px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+	text-align:left;
+	color:#000000;
+}
+
+.css-visitante-nome-box{
+	left:219px;
+	top:63px;
+	width:195px;
+	z-index:11;
+	background-color:#FFFFFF;
+	color:#000000;
+	font-size: 13px;
+	font-style:normal;
+	font-weight:normal;
+	text-decoration:none;
+	text-align:left;
+}
+
+.css-texto-cabecalho-bem-vindo{
+	font-size: 14px; 
+	font-weight: bold; 
+	font-style: italic; 
+	padding-bottom: 10px
+}
+
+.css-logo{
+	padding-left: 5px; 
+	padding-right: 5px; 
+	max-height: 140px;  
+}
+
+.slot {
+      width:100%;
+      height:120px;
+      display:block;
+      background: lightgrey;
+}
+
+.slotActive {
+	background: #FFCC00;
+}

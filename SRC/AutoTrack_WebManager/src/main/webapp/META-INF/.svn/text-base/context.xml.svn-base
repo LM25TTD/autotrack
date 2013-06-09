@@ -1,0 +1,20 @@
+<Context path="/" docBase="">
+	<Resource 
+		name="jdbc/postgres" 
+		scope="Shareable" 
+		auth="Container"
+		type="javax.sql.DataSource" 
+		maxActive="100" 
+		maxIdle="20"
+		maxWait="10000" 
+		username="postgres" 
+		password="postgres"
+		driverClassName="org.postgresql.Driver"
+		url="jdbc:postgresql://localhost:5432/dbModuloAnaliseCritica" />
+	 
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+	<Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader" useSystemClassLoaderAsParent="false"/>
+	
+</Context>      
+		 
+		 
