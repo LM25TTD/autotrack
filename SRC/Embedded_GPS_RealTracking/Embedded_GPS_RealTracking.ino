@@ -31,7 +31,7 @@ SoftwareSerial gpsCommunicator(GPS_TX_PIN, GPS_RX_PIN);
 
 
 String USER_AGENT = "Mozilla/5.0";
-String HOST = "lm25ttd.no-ip.org";
+String HOST = "201.9.105.236";
 int PORT = 8229;
 
 String apn = "tim.br";
@@ -183,13 +183,13 @@ String buildJsonContent(float *latitude, float *longitude)
 
   char latConverted[10] = "";
 
-  jsonContent += "\"lat\":\"";
+  jsonContent += "\"latitude\":\"";
   dtostrf(*latitude, 1, 4, latConverted);
   jsonContent+= latConverted;
 
   char longConverted[10] = "";
 
-  jsonContent += "\",\"long\":\"";
+  jsonContent += "\",\"longitude\":\"";
   dtostrf(*longitude, 1, 4, longConverted);
   jsonContent += longConverted;
   jsonContent += "\",\"alarm\":\"";
