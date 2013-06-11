@@ -37,7 +37,7 @@ int PORT = 8229;
 String apn = "tim.br";
 String user = "tim";
 String password = "tim";
-String path = "/";
+String path = "";
 String responseFromServer = "";
 byte pdpId = 1;
 byte connectionId = 1;
@@ -126,6 +126,8 @@ boolean sendMessageToServer(String *request, byte *connectionId)
 #endif
       delay(5000);
       responseFromServer = cell.getServerResponse(connectionId);        
+      responseFromServer += cell.getServerResponse(connectionId);
+      
       cell.cleanCounters();
       return (true);
     }

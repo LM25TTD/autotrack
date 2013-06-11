@@ -35,7 +35,7 @@ public class EmbeddedControl implements Serializable {
 		LogPosicao logPosicao = new LogPosicao();
 		logPosicao.setInstante(new Date());
 		logPosicao.setLatitude(moduleRequest.getLatitude());
-		logPosicao.setLongitude(moduleRequest.getLatitude());
+		logPosicao.setLongitude(moduleRequest.getLongitude());
 		logPosicao.setModuloDeOrigem(modulo);
 		genericDao.save(logPosicao);
 
