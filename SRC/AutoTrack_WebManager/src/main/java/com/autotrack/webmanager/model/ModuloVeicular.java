@@ -30,16 +30,16 @@ public class ModuloVeicular implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@Column(unique = true)
+	@Column(unique = true, nullable = false)
 	private String numSerial;
 
-	@Column
+	@Column(nullable = false)
 	private String codAcesso;
 
 	@Column(unique = true)
 	private String numCelular;
 
-	@Column
+	@Column(nullable = false)
 	private boolean bloqueado;
 
 	@OneToMany(orphanRemoval = true, mappedBy = "moduloDeOrigem", fetch = FetchType.LAZY)

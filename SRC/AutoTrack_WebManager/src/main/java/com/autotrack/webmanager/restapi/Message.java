@@ -3,7 +3,7 @@ package com.autotrack.webmanager.restapi;
 public class Message {
 	private String message;
 
-	public Message(String message){
+	public Message(String message) {
 		this.message = message;
 	}
 

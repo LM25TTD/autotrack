@@ -6,7 +6,7 @@
 
 #define DEBUG_MESSAGES
 
-#define MAX_NUM_ERRORS 20
+#define MAX_NUM_ERRORS 10
 #define GSM_TX_PIN 2
 #define GSM_RX_PIN 3
 #define GPS_TX_PIN 4
@@ -15,14 +15,15 @@
 
 #define TIME_TO_SEND 60000
 
+#define REBOOT_PIN 9
 #define STATE_PERM_DATA_ADDR 0
 #define STATE_UNBLOCKED LOW 
 #define STATE_BLOCKED HIGH
 #define IO_PIN  12
 #define ALARM_STATUS_PIN 10
 
-#define BLOCK_MESSAGE "BLOCK"
-#define UNBLOCK_MESSAGE "UNBLOCK"
+#define BLOCK_MESSAGE "300"
+#define UNBLOCK_MESSAGE "200"
 
 
 TinyGPS gps;
@@ -31,13 +32,13 @@ SoftwareSerial gpsCommunicator(GPS_TX_PIN, GPS_RX_PIN);
 
 
 String USER_AGENT = "Mozilla/5.0";
-String HOST = "201.9.105.236";
+String HOST = "lm25ttd.no-ip.org";
 int PORT = 8229;
 
 String apn = "tim.br";
 String user = "tim";
 String password = "tim";
-String path = "";
+String path = "/AutoTrack_WebManager/api/embedded";
 String responseFromServer = "";
 byte pdpId = 1;
 byte connectionId = 1;
@@ -49,7 +50,7 @@ byte moduleState = STATE_UNBLOCKED;
 float actualLatitude = 0.0f;
 float actualLongitude = 0.0f;
 
-void attachNetwork()
+boolean attachNetwork()
 {
   if (cell.attachGPRS())
   {
@@ -66,12 +67,14 @@ void attachNetwork()
 #ifdef DEBUG_MESSAGES
         Serial.println(F("ActivePDP"));
 #endif
+      return (true);
       }
     }
   }
+  return (false);
 }
 
-void createSocket()
+boolean createSocket()
 {
   if(cell.connectToHostTCP(&connectionId, &HOST, &PORT))
   {
@@ -83,23 +86,16 @@ void createSocket()
 #ifdef DEBUG_MESSAGES
       Serial.println(F("Display"));      
 #endif
+      return (true);
     }
-  } 
+  }
+  return false; 
 }
 
 
 void rebootGSMProcedure()
 {
-#ifdef DEBUG_MESSAGES  
-  Serial.println(F("Rebooting GSM..."));
-#endif
-  cell.listen();
-  delay(5000);
-  attachNetwork();
-  createSocket();
-#ifdef DEBUG_MESSAGES  
-  Serial.println(F("Reboot GSM complete..."));  
-#endif
+  digitalWrite(REBOOT_PIN, LOW);
 }
 
 void signalizeError()
@@ -124,10 +120,8 @@ boolean sendMessageToServer(String *request, byte *connectionId)
 #ifdef DEBUG_MESSAGES
       Serial.println(F("SendData"));
 #endif
-      delay(5000);
-      responseFromServer = cell.getServerResponse(connectionId);        
-      responseFromServer += cell.getServerResponse(connectionId);
-      
+      delay(15000);
+      responseFromServer = cell.getServerResponse(connectionId);
       cell.cleanCounters();
       return (true);
     }
@@ -165,6 +159,7 @@ boolean doPost(byte *connectionId, String *path, float *latitude, float *longitu
   request += *path;
   request += " HTTP/1.1\nHost: ";
   request += HOST;
+  request += "\nConnection: keep-alive";
   request += "\nUser-Agent: ";
   request += (USER_AGENT+"\n");
   request += "Accept: application/json\n";
@@ -216,6 +211,9 @@ static bool feedGps()
 
 void setup()
 {
+  digitalWrite(REBOOT_PIN, HIGH);
+  pinMode(REBOOT_PIN, OUTPUT);
+  
   pinMode(IO_PIN, OUTPUT);
   moduleState = EEPROM.read(STATE_PERM_DATA_ADDR);
   digitalWrite(IO_PIN, moduleState);
@@ -235,7 +233,7 @@ void setup()
 
 void treatServerResponse(String *response)
 {
-  if (response->substring(8, response->length())==BLOCK_MESSAGE)
+  if (response->substring(17, 20)==BLOCK_MESSAGE)
   {
     if(moduleState!=STATE_BLOCKED)
     {
@@ -245,7 +243,7 @@ void treatServerResponse(String *response)
     }
   }
 
-  if (response->substring(8, response->length())==UNBLOCK_MESSAGE)
+  if (response->substring(17, 20)==UNBLOCK_MESSAGE)
   {
     if(moduleState!=STATE_UNBLOCKED)
     {
@@ -280,3 +278,4 @@ void loop()
 #endif  
   responseFromServer = ""; 
 }
+

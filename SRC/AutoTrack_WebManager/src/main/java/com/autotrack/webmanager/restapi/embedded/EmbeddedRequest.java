@@ -2,17 +2,16 @@ package com.autotrack.webmanager.restapi.embedded;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EmbeddedRequest {
-	
+
 	private String idModule;
 	private String codAccess;
 	private float latitude;
 	private float longitude;
 	private int alarm;
-	
-	public EmbeddedRequest(){
+
+	public EmbeddedRequest() {
 		super();
 	}
 
@@ -56,5 +55,4 @@ public class EmbeddedRequest {
 		this.alarm = alarm;
 	}
 
-	
 }

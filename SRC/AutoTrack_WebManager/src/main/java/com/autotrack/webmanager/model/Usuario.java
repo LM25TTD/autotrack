@@ -20,7 +20,6 @@ import org.hibernate.annotations.CascadeType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
-
 @SuppressWarnings("deprecation")
 @Entity
 @Table(name = "tb_Usuario")
@@ -127,34 +126,35 @@ public class Usuario implements Serializable {
 	public void setPerfisUsuario(List<PerfilUsuario> perfisUsuario) {
 		this.perfisUsuario = perfisUsuario;
 	}
-	
+
 	@Transient
-	 public Collection<GrantedAuthority> getAuthorities() {
-	    List<GrantedAuthority> result = new ArrayList<GrantedAuthority>();
-	    for (PerfilUsuario perfil : perfisUsuario) {
-	      result.add(new GrantedAuthorityImpl(perfil.getPerfil().getNomePerfil()));
-	    }
-	    return result;
-	  }
-	  
-	  @Transient
-	  public boolean isEnabled() {
-	    return true;
-	  }
+	public Collection<GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> result = new ArrayList<GrantedAuthority>();
+		for (PerfilUsuario perfil : perfisUsuario) {
+			result.add(new GrantedAuthorityImpl(perfil.getPerfil()
+					.getNomePerfil()));
+		}
+		return result;
+	}
 
-	  @Transient
-	  public boolean isAccountNonExpired() {
-	    return true;
-	  }
+	@Transient
+	public boolean isEnabled() {
+		return true;
+	}
 
-	  @Transient
-	  public boolean isAccountNonLocked() {
-	    return true;
-	  }
+	@Transient
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-	  @Transient
-	  public boolean isCredentialsNonExpired() {
-	    return true;
-	  }
+	@Transient
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Transient
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
 
 }

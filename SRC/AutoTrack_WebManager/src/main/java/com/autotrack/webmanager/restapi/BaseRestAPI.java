@@ -10,7 +10,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class BaseRestAPI {
 
 	Logger logger = LoggerFactory.getLogger(BaseRestAPI.class);
-	
+
+	@ExceptionHandler({ BlockException.class })
+	@ResponseBody
+	@ResponseStatus(HttpStatus.MULTIPLE_CHOICES)
+	public Message handleBlockException(Throwable exception) {
+		return new Message("Module will be blocked.");
+	}
+
 	@ExceptionHandler(Throwable.class)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -19,6 +26,5 @@ public class BaseRestAPI {
 		return new Message(
 				"Occurred a problem during your request. Please contact the support team.");
 	}
-	
-		
+
 }

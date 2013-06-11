@@ -17,7 +17,7 @@
 	<sec:http auto-config="true" use-expressions="true"> 
 		<!--sec:intercept-url access="isAuthenticated()" pattern="/comuns/**"/-->
 		<sec:intercept-url access="isAuthenticated()" pattern="/secured/**"/> 
-		<sec:intercept-url access="permitAll" pattern="/login.xhtml"/> 
+		<sec:intercept-url access="permitAll" pattern="/login.xhtml,/resources/**"/> 
 		<sec:form-login authentication-failure-url="/index.xhtml" login-page="/index.xhtml"/> 
 		<sec:access-denied-handler error-page="/index.xhtml"/>
 		<sec:logout logout-success-url="/index.xhtml" />

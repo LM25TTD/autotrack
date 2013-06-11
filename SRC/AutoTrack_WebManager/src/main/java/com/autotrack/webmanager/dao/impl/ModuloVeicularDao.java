@@ -11,10 +11,13 @@ import com.autotrack.webmanager.model.ModuloVeicular;
 @Repository
 public class ModuloVeicularDao extends GenericDao implements IModuloVeicularDao {
 
-	@Transactional(propagation=Propagation.REQUIRED,readOnly=true)
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public ModuloVeicular obterPeloSerial(String serialNum) {
-		Query query = this.getSessionFactory().getCurrentSession()
-				.createQuery("from ModuloVeicular where numSerial like :serialNum");
+		Query query = this
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(
+						"from ModuloVeicular where numSerial like :serialNum");
 		query.setParameter("serialNum", serialNum);
 		return (ModuloVeicular) query.uniqueResult();
 	}

@@ -12,11 +12,11 @@ public final class EmbeddedResponse extends ArrayList<Map<String, String>> {
 	public EmbeddedResponse() {
 		super();
 	}
-	
+
 	public EmbeddedResponse(int startSize) {
 		super(startSize);
 	}
-	
+
 	private static final long serialVersionUID = -5007177567240287252L;
 
 	public static EmbeddedResponse newFrom(String responseFromServer) {

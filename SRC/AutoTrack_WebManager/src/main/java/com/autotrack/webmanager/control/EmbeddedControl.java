@@ -10,6 +10,7 @@ import com.autotrack.webmanager.dao.IGenericDao;
 import com.autotrack.webmanager.dao.IModuloVeicularDao;
 import com.autotrack.webmanager.model.LogPosicao;
 import com.autotrack.webmanager.model.ModuloVeicular;
+import com.autotrack.webmanager.restapi.BlockException;
 import com.autotrack.webmanager.restapi.embedded.EmbeddedRequest;
 
 @Controller
@@ -19,7 +20,6 @@ public class EmbeddedControl implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7436361159861319506L;
-	private static final String BLOCK = "BLOCK";
 	private static final String UNBLOCK = "UNBLOCK";
 
 	@Autowired
@@ -40,7 +40,7 @@ public class EmbeddedControl implements Serializable {
 		genericDao.save(logPosicao);
 
 		if (modulo.isBloqueado())
-			return BLOCK;
+			throw new BlockException();
 		else
 			return UNBLOCK;
 
