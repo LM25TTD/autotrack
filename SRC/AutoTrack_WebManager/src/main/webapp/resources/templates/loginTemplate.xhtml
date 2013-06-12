@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+
+	<h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>AutoTrack - WebManager</title>
+            <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/images/favicon.png" />
+        </f:facet>
+        
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/default.css" />
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/style.css" />
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+		<ui:insert name="head"></ui:insert>
+        
+        <script type="text/javascript">
+            $(function() {$('.sidebar a').hover(function() {$(this).toggleClass('ui-state-hover');})});
+        </script>   
+	</h:head>
+
+	<h:body>
+
+		<div id="header" class="ui-widget ui-widget-header">
+			<div id="logo">
+				<img src="#{request.contextPath}/resources/images/autoTrackLogo.png" alt="Logo" style="height: 95px; width: 500px;"/>
+			</div>           
+		</div>
+
+        <div id="page" class="ui-widget">
+            <div id="contentLogin">
+                <div class="post">
+                    <ui:insert name="contentLogin">...</ui:insert>
+                </div>
+            </div>
+
+            <div style="clear: both;"></div>
+        </div>
+
+		<div id="footer" class="ui-widget ui-widget-header ui-corner-all">
+			<p class="copyright">AutoTrack Rastreamento e Bloqueio Automotivo - 2013 - Todos os Direitos Reservados</p>
+		</div>
+
+       
+
+	</h:body>
+</f:view>
+</html>
