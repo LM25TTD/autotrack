@@ -61,10 +61,10 @@ img.right {
 /* Menu */
 #menu {
     position: absolute;
-    top:25px;
+    top:45px;
     right:15px;
 	padding: 0;
-	height: 59px;
+	height: 50px;
     overflow: hidden;
 }
 
@@ -80,11 +80,11 @@ img.right {
 #menu li a {
 	display: block;
 	float: left;
-	height: 42px;
+	height: 35px;
 	margin: 0;
 	padding: 18px 40px 0 40px;
 	text-decoration: none;
-	font-size: 20px;
+	font-size: 18px;
 }
 
 #menu li a:hover {
@@ -182,7 +182,7 @@ img.right {
 #sidebar {
 	float: left;
 	width: 25%;
-	padding: 0 10px;
+	padding: 10px 10px 10px 10px;
 	margin-left: -1px;
     overflow: hidden;
 }

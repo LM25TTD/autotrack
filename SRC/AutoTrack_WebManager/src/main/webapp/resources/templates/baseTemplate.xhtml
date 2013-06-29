@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+
+	<h:head>
+        <f:facet name="first">
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+            <title>AutoTrack - WebManager</title>
+            <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/images/favicon.png" />
+        </f:facet>
+        
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/default.css" />
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/syntaxhighlighter/syntaxhighlighter.css" />
+
+		<ui:insert name="head"></ui:insert>
+        
+        <script type="text/javascript">
+            $(function() {$('.sidebar a').hover(function() {$(this).toggleClass('ui-state-hover');})});
+        </script>
+        
+        
+	</h:head>
+
+	<h:body>
+
+		<div id="header" class="ui-widget ui-widget-header">
+			<div id="logo">
+				<img src="#{request.contextPath}/resources/images/autoTrackLogo.png" alt="Logo" style="height: 95px; width: 500px;"/>
+			</div>
+            
+            <div id="menu" class="ui-widget">
+                <ul id="main">
+                  <li></li>
+                  <li></li>
+                  <li></li>
+                  <li class="current_page_item"><a href="#{request.contextPath}/ui/macosx.jsf" style="background:url('resources/design/mac.png') no-repeat center left;">Meu Cadastro</a></li>
+                  <li class="current_page_item"><a href="#{request.contextPath}/ui/macosx.jsf" style="background:url('resources/design/mac.png') no-repeat center left;">Sair</a></li>
+                </ul>
+            </div>
+            
+            <div id="globalthemeswitcher">
+                <span style="font-size: 16px; font-weight: bold; font-style: italic; padding-bottom: 10px">Bem-Vindo Leandro</span>
+            </div>
+		</div>
+
+        <div id="page" class="ui-widget">
+        	<div id="sidebar" class="ui-widget-content ui-corner-bottom ui-helper-clearfix ui-shadow">
+				<h:form>
+				<p:menu id="sidebar"  style="float: left;width: 100%;padding: 0px 0px 0px 0px;overflow: hidden;">  
+			        <p:submenu label="Módulos de Rastreamento" style="margin-top:0px">
+			        	<p:menuitem value="Meus Módulos" icon="ui-icon-arrowrefresh-1-w"/>  
+			            <p:menuitem value="Ativar Módulo" icon="ui-icon-disk" />    
+			        </p:submenu>  
+			        <p:submenu label="Veículos" style="margin-top:2px">  
+			        	<p:menuitem value="Meus Veículos" icon="ui-icon-disk" />
+			        	<p:menuitem value="Rastrear Veículo" icon="ui-icon-search"/>
+			            <p:menuitem value="Bloquear Veículo" ajax="false" icon="ui-icon-close"/>  
+			        </p:submenu>  
+			    </p:menu>   
+				</h:form>
+			</div>
+				
+               
+
+            <div id="content">
+                <div class="post">
+                    <ui:insert name="content">...</ui:insert>
+                </div>
+            </div>
+
+            <div style="clear: both;"></div>
+        </div>
+
+		<div id="footer" class="ui-widget ui-widget-header ui-corner-all">
+			<p class="copyright">AutoTrack Rastreamento e Bloqueio Automotivo - 2013 - Todos os Direitos Reservados</p>
+		</div>
+
+        <ui:insert name="status">
+            <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
+                <f:facet name="start">
+                    <p:graphicImage value="resources/design/loading.gif" />
+                </f:facet>
+
+                <f:facet name="complete">
+                    <h:outputText value="" />
+                </f:facet>
+            </p:ajaxStatus>
+        </ui:insert>
+
+	</h:body>
+</f:view>
+</html>
