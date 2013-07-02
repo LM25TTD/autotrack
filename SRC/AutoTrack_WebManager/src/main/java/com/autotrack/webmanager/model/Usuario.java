@@ -20,10 +20,12 @@ import org.hibernate.annotations.CascadeType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
 
+import com.autotrack.webmanager.security.UserDetails;
+
 @SuppressWarnings("deprecation")
 @Entity
 @Table(name = "tb_Usuario")
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, UserDetails {
 
 	/**
 	 * 
@@ -155,6 +157,14 @@ public class Usuario implements Serializable {
 	@Transient
 	public boolean isCredentialsNonExpired() {
 		return true;
+	}
+
+	public String getPassword() {
+		return this.senha;
+	}
+
+	public String getUsername() {
+		return this.login;
 	}
 
 }

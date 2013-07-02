@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.autotrack.webmanager.control.EmbeddedControl;
+import com.autotrack.webmanager.constants.URL;
+import com.autotrack.webmanager.control.impl.EmbeddedControl;
 import com.autotrack.webmanager.restapi.BaseRestAPI;
-import com.autotrack.webmanager.restapi.URL;
 
 @Controller
 public class EmbeddedRestAPI extends BaseRestAPI {

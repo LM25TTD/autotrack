@@ -1,4 +1,4 @@
-package com.autotrack.webmanager.control;
+package com.autotrack.webmanager.control.impl;
 
 import java.io.Serializable;
 

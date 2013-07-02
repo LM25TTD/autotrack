@@ -4,56 +4,57 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="resources/templates/loginTemplate.xhtml">
-    
-    <ui:define name="head">
-        <style type="text/css">
-		.ui-confirm-dialog-severity {
-			margin: 0 7px 7px 0;
-		}
-        </style>
-    </ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.ui-confirm-dialog-severity {
+	margin: 0 7px 7px 0;
+}
+</style>
+	</ui:define>
 
 	<ui:define name="contentLogin">
 		<table align="center" width="500px" cellspacing="0" cellpadding="0">
 			<tr align="center">
 				<td align="center" valign="middle" width="100%" height="400px"
 					style="vertical-align: middle;">
-					<div class="entry" style="line-height:200%">
-						<p:panel style="width:100%;" header="Acesso ao Sistema">
-												
-						<h:panelGrid columns="2">
-							<h:panelGrid>
-								<h:outputText id="labelLogin" value="Login:"
-									styleClass="label-class" />
-							</h:panelGrid>
-							<h:panelGrid>
-								<p:inputText id="login" size="40" />
-							</h:panelGrid>							
-						</h:panelGrid>
+					<div class="entry" style="line-height: 200%">
+						
+						<h:form id="fLogin">
+							<p:panel style="width:100%;" header="Acesso ao Sistema">
 
-						<h:panelGrid columns="2">
-							<h:panelGrid >
-								<h:outputText id="labelSenha" value="Senha:"
-									styleClass="label-class" />
-							</h:panelGrid>
-							<h:panelGrid>
-								<p:password id="senha" size="40" />
-							</h:panelGrid>
-						</h:panelGrid>
+								<h:panelGrid columns="2">
+									<h:panelGrid>
+										<h:outputText id="labelLogin" value="Login:"
+											styleClass="label-class" />
+									</h:panelGrid>
+									<h:panelGrid>
+										<p:inputText id="login" size="40" value="#{controllerUsuario.userName}"/>
+									</h:panelGrid>
+								</h:panelGrid>
 
-						<h:panelGrid>
-							<p:button value="Logar" href="/member/home.xhtml" />
-						</h:panelGrid>
+								<h:panelGrid columns="2">
+									<h:panelGrid>
+										<h:outputText id="labelSenha" value="Senha:"
+											styleClass="label-class" />
+									</h:panelGrid>
+									<h:panelGrid>
+										<p:password id="senha" size="40" value="#{controllerUsuario.password}"/>
+									</h:panelGrid>
+								</h:panelGrid>
 
-						<br />
+								<h:panelGrid>
+									<p:commandButton value="Logar" action="#{controllerUsuario.doLogin}" ajax="false" />
+								</h:panelGrid>
 
-
-					</p:panel>
+								<br />
+							</p:panel>
+						</h:form>
 					</div>
 				</td>
 			</tr>
-        </table>
-        
+		</table>
+
 
 	</ui:define>
 </ui:composition>

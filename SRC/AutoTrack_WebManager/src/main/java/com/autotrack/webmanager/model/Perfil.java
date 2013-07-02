@@ -28,7 +28,7 @@ public class Perfil implements Serializable {
 	@Column(unique = true, nullable = false)
 	private String nomePerfil;
 
-	@OneToMany(mappedBy = "perfil", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "perfil", fetch = FetchType.EAGER)
 	private List<PerfilUsuario> usuariosComPerfil;
 
 	public int getIdPerfil() {
