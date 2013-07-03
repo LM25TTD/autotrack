@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import com.autotrack.webmanager.constants.Messages;
 import com.autotrack.webmanager.constants.URL;
 import com.autotrack.webmanager.security.impl.AuthenticationService;
+import com.autotrack.webmanager.util.Crypto;
 
 @Controller
 @Scope("session")
@@ -49,7 +50,7 @@ public class ControllerUsuario {
 		if (validarCampos()) {
 			try {
 				boolean success = authenticationService.login(userName,
-						password);
+						Crypto.textToSHA1(password));
 				if (!success) {
 					message = Messages.LOGIN_FALHA;
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro", message));
