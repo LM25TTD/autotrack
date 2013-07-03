@@ -2,6 +2,7 @@ package com.autotrack.webmanager.control.impl;
 
 import java.io.Serializable;
 
+import org.primefaces.model.map.Circle;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
@@ -22,9 +23,17 @@ public class ControllerVeiculo implements Serializable{
         
         //Shared coordinates  
         LatLng coord1 = new LatLng(-3.1046, -59.9845);  
+        
+        Circle circle2 = new Circle(coord1, 15);  
+        circle2.setStrokeColor("#00ff00");  
+        circle2.setFillColor("#00ff00");  
+        circle2.setStrokeOpacity(0.5);  
+        circle2.setFillOpacity(0.5);  
+
          
         //Basic marker  
         simpleModel.addOverlay(new Marker(coord1, "Palio - JW#-74$%"));   
+        simpleModel.addOverlay(circle2);
 	}
 
 	public MapModel getSimpleModel() {

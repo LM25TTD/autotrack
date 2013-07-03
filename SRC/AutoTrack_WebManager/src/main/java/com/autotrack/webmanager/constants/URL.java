@@ -10,6 +10,7 @@ public interface URL {
 	String VERSION = "/api";
 	String EMBEDDED = VERSION + "/embedded";
 	
+	String SEM_NAVEGACAO = null;
 	String LOGIN_PAGE = "/index.xhtml";
 	
 	String SECURED_PATH = "/secured";

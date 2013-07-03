@@ -2,6 +2,9 @@ package com.autotrack.webmanager.control.impl;
 
 import java.util.Collection;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -49,7 +52,8 @@ public class ControllerUsuario {
 						password);
 				if (!success) {
 					message = Messages.LOGIN_FALHA;
-					return Messages.VAZIO;
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro", message));
+					return URL.SEM_NAVEGACAO;
 				}
 				message = Messages.LOGIN_SUCESSO;
 
@@ -64,15 +68,17 @@ public class ControllerUsuario {
 						return URL.USER_PAGINA_PRINCIPAL;
 					}
 				}
-				return Messages.VAZIO;
+				return URL.SEM_NAVEGACAO;
 
 			} catch (BadCredentialsException e) {
 				message = Messages.LOGIN_FALHA;
-				return Messages.VAZIO;
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro", message));
+				return URL.SEM_NAVEGACAO;
 			}
 		} else {
 			message = Messages.CAMPOS_OBRIGATORIOS;
-			return Messages.VAZIO;
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro", message));
+			return URL.SEM_NAVEGACAO;
 		}
 	}
 

@@ -82,7 +82,7 @@ img.right {
 	float: left;
 	height: 35px;
 	margin: 0;
-	padding: 18px 40px 0 40px;
+	padding: 18px 40px 0 0;
 	text-decoration: none;
 	font-size: 18px;
 }
