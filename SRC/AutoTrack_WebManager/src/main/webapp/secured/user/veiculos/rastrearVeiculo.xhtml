@@ -4,18 +4,36 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/resources/templates/baseTemplate.xhtml">
-	
+
 	<ui:define name="head">
-		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-        <script type="text/javascript">
-        </script>
+		<script type="text/javascript"
+			src="http://maps.google.com/maps/api/js?sensor=true"></script>
+		<script type="text/javascript">
+			
+		</script>
 	</ui:define>
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{controllerVeiculo.carregarListaVeiculos}"></f:event>
+	</f:metadata>
 
 	<ui:define name="content">
 
 		<h1 class="title ui-widget-header ui-corner-all">Rastrear Veículo</h1>
 		<div class="entry">
-			<p:gmap id="gmap"  center="-3.1046, -59.9845" zoom="18" type="HYBRID" style="width:100%;height:600px" model="#{controllerVeiculo.simpleModel}"/>											
+			<h:panelGrid columns="2">
+				<h:panelGrid columns="2">
+					<h:outputText value="Veículo: " styleClass="label-class"/>				
+					<p:selectOneMenu>
+						<f:selectItem itemLabel="Selecione um veículo" itemValue="" />
+						<f:selectItems value="#{controllerVeiculo.veiculosRastreamento}" />
+						<f:converter converterId="SelectOneMenuConverter" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+			</h:panelGrid>
+			<p:gmap id="gmap" center="-3.1046, -59.9845" zoom="18" type="HYBRID"
+				style="width:100%;height:400px"
+				model="#{controllerVeiculo.simpleModel}" />
 		</div>
 	</ui:define>
 </ui:composition>

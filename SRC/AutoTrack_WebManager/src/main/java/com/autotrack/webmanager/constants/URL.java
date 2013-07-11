@@ -18,6 +18,8 @@ public interface URL {
 	String ADMIN_BASE = SECURED_PATH + "/admin";
 	
 	String USER_PAGINA_PRINCIPAL = USER_BASE + "/ativarModulos/filtro.xhtml";
+	String USER_PAGINA_RASTREAMENTO = USER_BASE + "/veiculos/rastrearVeiculo.xhtml";
+	
 		
 	String ADMIN_PAGINA_PRINCIPAL = ADMIN_BASE + "/principal.xhtml";
 	

@@ -14,5 +14,11 @@ http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
     		org.springframework.web.jsf.el.SpringBeanFacesELResolver
     	</el-resolver>
   	</application>
+  	<!-- Converters -->
+	<converter>
+		<converter-id>SelectOneMenuConverter</converter-id>
+		<converter-class>com.autotrack.webmanager.util.SelectOneMenuConverter</converter-class>
+	</converter>
+	
 	
 </faces-config>

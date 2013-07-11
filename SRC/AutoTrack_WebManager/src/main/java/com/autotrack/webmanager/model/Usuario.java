@@ -167,4 +167,22 @@ public class Usuario implements Serializable, UserDetails {
 		return this.login;
 	}
 
+	public List<ModuloVeicular> getModulosDoUsuario() {
+		return modulosDoUsuario;
+	}
+
+	public void setModulosDoUsuario(List<ModuloVeicular> modulosDoUsuario) {
+		this.modulosDoUsuario = modulosDoUsuario;
+	}
+
+	public List<Veiculo> getVeiculosDoUsuario() {
+		return veiculosDoUsuario;
+	}
+
+	public void setVeiculosDoUsuario(List<Veiculo> veiculosDoUsuario) {
+		this.veiculosDoUsuario = veiculosDoUsuario;
+	}
+	
+	
+
 }

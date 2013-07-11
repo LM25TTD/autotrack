@@ -66,7 +66,7 @@ public class ControllerUsuario {
 				} else {
 					if (userAuthorities.contains(new SimpleGrantedAuthority(
 							URL.ROLE_USER))) {
-						return URL.USER_PAGINA_PRINCIPAL;
+						return URL.USER_PAGINA_RASTREAMENTO;
 					}
 				}
 				return URL.SEM_NAVEGACAO;

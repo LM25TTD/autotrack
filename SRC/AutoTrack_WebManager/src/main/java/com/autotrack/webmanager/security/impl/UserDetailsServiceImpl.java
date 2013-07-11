@@ -2,7 +2,6 @@ package com.autotrack.webmanager.security.impl;
 
 import javax.persistence.NoResultException;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.autotrack.webmanager.dao.IGenericDao;
+import com.autotrack.webmanager.dao.IUsuarioDao;
 import com.autotrack.webmanager.model.Usuario;
 
 
@@ -18,14 +17,14 @@ import com.autotrack.webmanager.model.Usuario;
 public class UserDetailsServiceImpl  implements UserDetailsService {
 
 	@Autowired
-	private IGenericDao genericDao;
+	private IUsuarioDao usuarioDao;
 	
-	public IGenericDao getGenericDao() {
-		return genericDao;
+	public IUsuarioDao getUsuarioDao() {
+		return usuarioDao;
 	}
 
-	public void setGenericDao(IGenericDao genericDao) {
-		this.genericDao = genericDao;
+	public void setUsuarioDao(IUsuarioDao usuarioDao) {
+		this.usuarioDao = usuarioDao;
 	}
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -36,7 +35,7 @@ public class UserDetailsServiceImpl  implements UserDetailsService {
 	private User findByUsername(String username) {
 	try{
 		
-		Usuario usu=(Usuario)genericDao.getSessionFactory().getCurrentSession().createQuery("from Usuario u where u.login like '%"+username+"%'").uniqueResult();
+		Usuario usu= usuarioDao.obterPeloLogin(username);
 		
 		return new User(usu.getLogin(),usu.getSenha(), true, true, true, true, usu.getAuthorities()); 
 	  
