@@ -32,13 +32,13 @@ SoftwareSerial gpsCommunicator(GPS_TX_PIN, GPS_RX_PIN);
 
 
 String USER_AGENT = "Mozilla/5.0";
-String HOST = "";
-int PORT = 80;
+String HOST = "lm25ttd.no-ip.org";
+int PORT = 8229;
 
 String apn = "tim.br";
 String user = "tim";
 String password = "tim";
-String path = "/api/embedded";
+String path = "/AutoTrack_WebManager/api/embedded";
 String responseFromServer = "";
 byte pdpId = 1;
 byte connectionId = 1;
@@ -241,10 +241,7 @@ void treatServerResponse(String *response)
       EEPROM.write(STATE_PERM_DATA_ADDR, moduleState);
       digitalWrite(IO_PIN, moduleState);
     }
-  }
-
-  if (response->substring(17, 20)==UNBLOCK_MESSAGE)
-  {
+  }else{
     if(moduleState!=STATE_UNBLOCKED)
     {
       moduleState=STATE_UNBLOCKED;
