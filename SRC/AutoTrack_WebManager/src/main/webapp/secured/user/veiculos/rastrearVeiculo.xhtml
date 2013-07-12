@@ -55,7 +55,7 @@
 				</h:panelGrid>
 				<p:panel id="panelGMap">
 					<p:gmap rendered="#{!empty controllerVeiculo.moduloAtual}"
-						id="gmap" center="-3.1046, -59.9845" zoom="18" type="HYBRID"
+						id="gmap" center="#{controllerVeiculo.last_lat}, #{controllerVeiculo.last_long}" zoom="18" type="HYBRID"
 						style="width:100%;height:400px" model="#{controllerVeiculo.mapa}" />
 				</p:panel>
 			</h:form>

@@ -13,7 +13,7 @@
 #define GPS_RX_PIN 5
 #define GPS_T_OUT 5000
 
-#define TIME_TO_SEND 60000
+#define TIME_TO_SEND 5000
 
 #define REBOOT_PIN 9
 #define STATE_PERM_DATA_ADDR 0
@@ -32,13 +32,13 @@ SoftwareSerial gpsCommunicator(GPS_TX_PIN, GPS_RX_PIN);
 
 
 String USER_AGENT = "Mozilla/5.0";
-String HOST = "lm25ttd.no-ip.org";
-int PORT = 8229;
+String HOST = "";
+int PORT = 80;
 
 String apn = "tim.br";
 String user = "tim";
 String password = "tim";
-String path = "/AutoTrack_WebManager/api/embedded";
+String path = "/api/embedded";
 String responseFromServer = "";
 byte pdpId = 1;
 byte connectionId = 1;
@@ -262,6 +262,9 @@ void loop()
   if(feedGps())
     gps.f_get_position(&actualLatitude, &actualLongitude);  
 
+  if((actualLatitude==0.0f) || (actualLongitude==0.0f))
+    return;  
+  
   cell.listen();
   delay(5000);
 

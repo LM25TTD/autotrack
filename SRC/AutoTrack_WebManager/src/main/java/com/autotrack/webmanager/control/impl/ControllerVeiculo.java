@@ -13,7 +13,6 @@ import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
-import org.primefaces.model.map.Overlay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -38,6 +37,8 @@ public class ControllerVeiculo implements Serializable {
 	private List<SelectItem> veiculosRastreamento;
 	private ModuloVeicular moduloAtual;
 	private Veiculo veiculoAtual;
+	private float last_lat, last_long;
+	
 
 	@Autowired
 	private IUsuarioDao usuarioDao;
@@ -60,7 +61,9 @@ public class ControllerVeiculo implements Serializable {
 
 			LatLng coord = new LatLng(posicaoAtual.getLatitude(),
 					posicaoAtual.getLongitude());
-
+			last_lat =posicaoAtual.getLatitude();
+			last_long=posicaoAtual.getLongitude();
+			
 			if(circulo==null){
 				circulo = new Circle(coord, 15);
 				circulo.setStrokeColor("#00ff00");
@@ -202,5 +205,23 @@ public class ControllerVeiculo implements Serializable {
 	public void setVeiculoAtual(Veiculo veiculoAtual) {
 		this.veiculoAtual = veiculoAtual;
 	}
+
+	public float getLast_lat() {
+		return last_lat;
+	}
+
+	public void setLast_lat(float last_lat) {
+		this.last_lat = last_lat;
+	}
+
+	public float getLast_long() {
+		return last_long;
+	}
+
+	public void setLast_long(float last_long) {
+		this.last_long = last_long;
+	}
+	
+	
 
 }
