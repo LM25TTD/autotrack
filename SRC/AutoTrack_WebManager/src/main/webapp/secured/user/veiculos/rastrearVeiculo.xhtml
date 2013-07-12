@@ -18,22 +18,47 @@
 	</f:metadata>
 
 	<ui:define name="content">
-
+		<p:growl id="message" showDetail="true" sticky="true"
+			autoUpdate="true" />
 		<h1 class="title ui-widget-header ui-corner-all">Rastrear Veículo</h1>
 		<div class="entry">
-			<h:panelGrid columns="2">
-				<h:panelGrid columns="2">
-					<h:outputText value="Veículo: " styleClass="label-class"/>				
-					<p:selectOneMenu>
-						<f:selectItem itemLabel="Selecione um veículo" itemValue="" />
-						<f:selectItems value="#{controllerVeiculo.veiculosRastreamento}" />
-						<f:converter converterId="SelectOneMenuConverter" />
-					</p:selectOneMenu>
+			<h:form>
+				<h:panelGrid columns="2" id="panelCommandContainer">
+					<h:panelGrid columns="2" id="panelSelect">
+						<h:outputText value="Veículo: " styleClass="label-class" />
+						<p:selectOneMenu value="#{controllerVeiculo.veiculoAtual}"
+							converter="SelectOneMenuConverter">
+							<f:selectItem itemLabel="Selecione um veiculo..." itemValue="" />
+							<f:selectItems value="#{controllerVeiculo.veiculosRastreamento}" />
+							<p:ajax event="change"
+								listener="#{controllerVeiculo.carregarModulo}"
+								update="panelButtons, panelGMap, panelGMap" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<h:panelGrid id="panelButtons" columns="2">
+						<p:poll interval="10"
+							rendered="#{!empty controllerVeiculo.moduloAtual}"
+							listener="#{controllerVeiculo.obterPosicaoVeiculo}"
+							update="panelGMap" />
+						<p:commandButton id="btnBloquear" value="Bloquear"
+							widgetVar="cp_btnBloquear"
+							actionListener="#{controllerVeiculo.bloquearVeiculo}"
+							rendered="#{!empty controllerVeiculo.moduloAtual and !controllerVeiculo.moduloAtual.bloqueado}"
+							update="panelButtons" />
+
+						<p:commandButton id="btnDesbloquear" value="Desloquear"
+							widgetVar="cp_btnDesbloquear"
+							actionListener="#{controllerVeiculo.desbloquearVeiculo}"
+							rendered="#{!empty controllerVeiculo.moduloAtual and controllerVeiculo.moduloAtual.bloqueado}"
+							update="panelButtons" />
+					</h:panelGrid>
 				</h:panelGrid>
-			</h:panelGrid>
-			<p:gmap id="gmap" center="-3.1046, -59.9845" zoom="18" type="HYBRID"
-				style="width:100%;height:400px"
-				model="#{controllerVeiculo.simpleModel}" />
+				<p:panel id="panelGMap">
+					<p:gmap rendered="#{!empty controllerVeiculo.moduloAtual}"
+						id="gmap" center="-3.1046, -59.9845" zoom="18" type="HYBRID"
+						style="width:100%;height:400px" model="#{controllerVeiculo.mapa}" />
+				</p:panel>
+			</h:form>
 		</div>
 	</ui:define>
 </ui:composition>

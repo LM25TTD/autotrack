@@ -53,7 +53,10 @@ public class ControllerUsuario {
 						Crypto.textToSHA1(password));
 				if (!success) {
 					message = Messages.LOGIN_FALHA;
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro", message));
+					FacesContext.getCurrentInstance().addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_ERROR,
+									Messages.ERRO, message));
 					return URL.SEM_NAVEGACAO;
 				}
 				message = Messages.LOGIN_SUCESSO;
@@ -73,12 +76,18 @@ public class ControllerUsuario {
 
 			} catch (BadCredentialsException e) {
 				message = Messages.LOGIN_FALHA;
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro", message));
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								Messages.ERRO, message));
 				return URL.SEM_NAVEGACAO;
 			}
 		} else {
 			message = Messages.CAMPOS_OBRIGATORIOS;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Erro", message));
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Messages.ERRO, message));
 			return URL.SEM_NAVEGACAO;
 		}
 	}

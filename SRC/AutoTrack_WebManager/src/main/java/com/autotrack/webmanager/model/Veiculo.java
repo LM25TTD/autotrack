@@ -131,7 +131,7 @@ public class Veiculo implements Serializable, Menuable {
 	}
 
 	public Integer getIdentifier() {
-		return id;
+		return new Integer(this.id);
 	}
 
 }

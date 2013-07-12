@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.model.map.Circle;
@@ -12,10 +13,13 @@ import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
+import org.primefaces.model.map.Overlay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.autotrack.webmanager.constants.Messages;
 import com.autotrack.webmanager.dao.IUsuarioDao;
+import com.autotrack.webmanager.model.LogPosicao;
 import com.autotrack.webmanager.model.ModuloVeicular;
 import com.autotrack.webmanager.model.Usuario;
 import com.autotrack.webmanager.model.Veiculo;
@@ -28,9 +32,12 @@ public class ControllerVeiculo implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -389270324531259788L;
-	private MapModel simpleModel;
+	private MapModel mapa;
+	private Marker marcador=null;
+	private Circle circulo=null;
 	private List<SelectItem> veiculosRastreamento;
 	private ModuloVeicular moduloAtual;
+	private Veiculo veiculoAtual;
 
 	@Autowired
 	private IUsuarioDao usuarioDao;
@@ -39,20 +46,95 @@ public class ControllerVeiculo implements Serializable {
 	private AuthenticationService authenticationService;
 
 	public ControllerVeiculo() {
-		simpleModel = new DefaultMapModel();
+		mapa = new DefaultMapModel();
+	}
 
-		// Shared coordinates
-		LatLng coord1 = new LatLng(-3.1046, -59.9845);
+	public void obterPosicaoVeiculo() {
 
-		Circle circle2 = new Circle(coord1, 15);
-		circle2.setStrokeColor("#00ff00");
-		circle2.setFillColor("#00ff00");
-		circle2.setStrokeOpacity(0.5);
-		circle2.setFillOpacity(0.5);
+		usuarioDao.getRefresh(moduloAtual);		
+		int totalPosicoes = moduloAtual.getPosicoes().size();
 
-		// Basic marker
-		simpleModel.addOverlay(new Marker(coord1, "Palio - JW#-74$%"));
-		simpleModel.addOverlay(circle2);
+		if (totalPosicoes > 0) {
+			LogPosicao posicaoAtual = moduloAtual.getPosicoes().get(
+					totalPosicoes - 1);
+
+			LatLng coord = new LatLng(posicaoAtual.getLatitude(),
+					posicaoAtual.getLongitude());
+
+			if(circulo==null){
+				circulo = new Circle(coord, 15);
+				circulo.setStrokeColor("#00ff00");
+				circulo.setFillColor("#00ff00");
+				circulo.setStrokeOpacity(0.5);
+				circulo.setFillOpacity(0.5);			
+				mapa.addOverlay(circulo);
+			}else{
+				circulo.setCenter(coord);
+			}
+			
+			if (marcador==null){
+				marcador = new Marker(coord, veiculoAtual.getLabel());
+				mapa.addOverlay(marcador);
+			}else{
+				marcador.setLatlng(coord);
+			}
+				
+			
+		}else {
+			moduloAtual=null;
+		}
+	}
+
+	public void carregarModulo() {
+		mapa = new DefaultMapModel();
+		marcador=null;
+		circulo=null;
+		try {
+			if (veiculoAtual != null)
+				moduloAtual = veiculoAtual.getModuloAcoplado();
+			else
+				moduloAtual = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void bloquearVeiculo() {
+		moduloAtual.setBloqueado(true);
+		FacesContext.getCurrentInstance().addMessage(
+				null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, Messages.SUCESSO,
+						Messages.SUCESSO_BLOQU_VEICULO));
+		try {
+			usuarioDao.update(moduloAtual);
+		} catch (Exception e) {
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Messages.ERRO, Messages.ERRO_BLOQ_VEICULO));
+		}
+
+	}
+
+	public void desbloquearVeiculo() {
+		moduloAtual.setBloqueado(false);
+		try {
+			usuarioDao.update(moduloAtual);
+			FacesContext.getCurrentInstance()
+					.addMessage(
+							null,
+							new FacesMessage(FacesMessage.SEVERITY_INFO,
+									Messages.SUCESSO,
+									Messages.SUCESSO_DESBLOQU_VEICULO));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Messages.ERRO, Messages.ERRO_DESBLOQ_VEICULO));
+		}
 
 	}
 
@@ -72,8 +154,12 @@ public class ControllerVeiculo implements Serializable {
 		}
 	}
 
-	public MapModel getSimpleModel() {
-		return simpleModel;
+	public MapModel getMapa() {
+		return mapa;
+	}
+
+	public void setMapa(MapModel mapa) {
+		this.mapa = mapa;
 	}
 
 	public List<SelectItem> getVeiculosRastreamento() {
@@ -92,10 +178,6 @@ public class ControllerVeiculo implements Serializable {
 		this.usuarioDao = usuarioDao;
 	}
 
-	public void setSimpleModel(MapModel simpleModel) {
-		this.simpleModel = simpleModel;
-	}
-
 	public AuthenticationService getAuthenticationService() {
 		return authenticationService;
 	}
@@ -111,6 +193,14 @@ public class ControllerVeiculo implements Serializable {
 
 	public void setModuloAtual(ModuloVeicular moduloAtual) {
 		this.moduloAtual = moduloAtual;
+	}
+
+	public Veiculo getVeiculoAtual() {
+		return veiculoAtual;
+	}
+
+	public void setVeiculoAtual(Veiculo veiculoAtual) {
+		this.veiculoAtual = veiculoAtual;
 	}
 
 }

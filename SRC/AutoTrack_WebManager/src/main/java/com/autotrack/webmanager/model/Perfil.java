@@ -54,5 +54,5 @@ public class Perfil implements Serializable {
 	public void setUsuariosComPerfil(List<PerfilUsuario> usuariosComPerfil) {
 		this.usuariosComPerfil = usuariosComPerfil;
 	}
-
+	
 }

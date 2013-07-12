@@ -17,9 +17,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import com.autotrack.webmanager.service.Menuable;
+
 @Entity
 @Table(name = "tb_ModuloVeicular")
-public class ModuloVeicular implements Serializable {
+public class ModuloVeicular implements Serializable, Menuable {
 
 	/**
 	 * 
@@ -91,5 +93,39 @@ public class ModuloVeicular implements Serializable {
 	public void setBloqueado(boolean bloqueado) {
 		this.bloqueado = bloqueado;
 	}
+
+	public String getLabel() {
+		return this.numSerial;
+	}
+
+	public Integer getIdentifier() {
+		return this.id;
+	}
+
+	public List<LogPosicao> getPosicoes() {
+		return posicoes;
+	}
+
+	public void setPosicoes(List<LogPosicao> posicoes) {
+		this.posicoes = posicoes;
+	}
+
+	public Usuario getDono() {
+		return dono;
+	}
+
+	public void setDono(Usuario dono) {
+		this.dono = dono;
+	}
+
+	public Veiculo getVeiculoHospeiro() {
+		return veiculoHospeiro;
+	}
+
+	public void setVeiculoHospeiro(Veiculo veiculoHospeiro) {
+		this.veiculoHospeiro = veiculoHospeiro;
+	}
+	
+	
 
 }

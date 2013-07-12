@@ -17,7 +17,6 @@ import com.autotrack.webmanager.service.Menuable;
 public class SelectOneMenuConverter implements Converter {
 
 	public Object getAsObject(FacesContext context, UIComponent component, String identifier) throws ConverterException {
-
 		if (identifier == null || identifier.trim().length() == 0)
 			return null;
 
