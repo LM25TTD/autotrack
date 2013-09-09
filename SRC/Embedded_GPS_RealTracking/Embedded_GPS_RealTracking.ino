@@ -4,7 +4,7 @@
 #include <EEPROM.h>
 #include <avr/pgmspace.h>
 
-#define DEBUG_MESSAGES
+//#define DEBUG_MESSAGES
 
 #define MAX_NUM_ERRORS 10
 #define GSM_TX_PIN 2
@@ -14,6 +14,7 @@
 #define GPS_T_OUT 5000
 
 #define TIME_TO_SEND 5000
+#define TIME_TO_READ_RESPONSE 2000
 
 #define REBOOT_PIN 9
 #define STATE_PERM_DATA_ADDR 0
@@ -120,7 +121,7 @@ boolean sendMessageToServer(String *request, byte *connectionId)
 #ifdef DEBUG_MESSAGES
       Serial.println(F("SendData"));
 #endif
-      delay(15000);
+      delay(TIME_TO_READ_RESPONSE);
       responseFromServer = cell.getServerResponse(connectionId);
       cell.cleanCounters();
       return (true);
@@ -241,7 +242,9 @@ void treatServerResponse(String *response)
       EEPROM.write(STATE_PERM_DATA_ADDR, moduleState);
       digitalWrite(IO_PIN, moduleState);
     }
-  }else{
+  }
+  if(response->substring(17, 20)==UNBLOCK_MESSAGE)
+  {
     if(moduleState!=STATE_UNBLOCKED)
     {
       moduleState=STATE_UNBLOCKED;
