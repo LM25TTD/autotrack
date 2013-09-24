@@ -46,7 +46,7 @@
 							rendered="#{!empty controllerVeiculo.moduloAtual and !controllerVeiculo.moduloAtual.bloqueado}"
 							update="panelButtons" />
 
-						<p:commandButton id="btnDesbloquear" value="Desloquear"
+						<p:commandButton id="btnDesbloquear" value="Desbloquear"
 							widgetVar="cp_btnDesbloquear"
 							actionListener="#{controllerVeiculo.desbloquearVeiculo}"
 							rendered="#{!empty controllerVeiculo.moduloAtual and controllerVeiculo.moduloAtual.bloqueado}"

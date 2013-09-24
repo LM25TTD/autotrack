@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/templates/baseTemplate.xhtml">
+
+	<ui:define name="head">
+		<script type="text/javascript"
+			src="http://maps.google.com/maps/api/js?sensor=true"></script>
+		<script type="text/javascript">
+			
+		</script>
+	</ui:define>
+
+
+	<ui:define name="content">
+		<p:growl id="message" showDetail="true" sticky="true"
+			autoUpdate="true" />
+		<h1 class="title ui-widget-header ui-corner-all">Meus Veículos</h1>
+		<div class="entry">
+			<h:form id="formFiltroVeiculos">
+				<h:panelGrid columns="3">
+					<h:outputText value="Placa" styleClass="label-class" />
+					<p:inputMask  mask="aaa-9999"/> 
+						
+					<p:commandButton value="Pesquisar" />
+				</h:panelGrid>
+				<br />
+				<p:commandButton value="Novo" styleClass="cssBtn"
+					 />
+				<p:commandButton value="Excluir" styleClass="cssBtn"
+					
+					disabled="#{empty beanContrato.resultadoPesquisa}"
+					onclick='return confirm("Deseja continuar com a exclusão?");' />
+
+				<br />
+				<br />
+				
+				<p:dataTable  var="item"
+				 	paginator="true" rows="10" paginatorPosition="bottom"  
+				 	
+				 	emptyMessage="Nenhum registro encontrado">  
+        			<f:facet name="header" >  
+            			Veículos Cadastrados
+        			</f:facet>
+        			<p:column selectionMode="multiple" style="width:18px" />  
+  					<p:column  headerText="Placa">
+  						<h:commandLink
+							value="#{item.nroContrato}"
+							actionListener="#{beanContrato.prepararEdicao}"
+							action="cadastro">
+						</h:commandLink>
+	       			</p:column>  
+  
+       				<p:column  headerText="Marca">  
+            			<h:commandLink value="#{item.cliente.nomeCliente}"
+            				actionListener="#{beanContrato.prepararEdicao}"
+							action="cadastro">
+							
+            			</h:commandLink>  
+        			</p:column> 
+        			
+        			<p:column headerText="Modelo">
+        				<h:commandLink
+							value="#{item.dataAssinatura}"
+							actionListener="#{beanContrato.prepararEdicao}"
+							action="cadastro">
+						</h:commandLink>  
+        			</p:column>   
+        			
+        			<p:column headerText="Cor">
+        				<h:commandLink
+							value="#{item.dataAssinatura}"
+							actionListener="#{beanContrato.prepararEdicao}"
+							action="cadastro">
+						</h:commandLink>  
+        			</p:column>        			
+        			   
+  			</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

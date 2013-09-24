@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -74,7 +75,7 @@ public class ControllerUsuario {
 				}
 				return URL.SEM_NAVEGACAO;
 
-			} catch (BadCredentialsException e) {
+			} catch (BadCredentialsException | AuthenticationServiceException e) {
 				message = Messages.LOGIN_FALHA;
 				FacesContext.getCurrentInstance().addMessage(
 						null,

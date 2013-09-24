@@ -18,6 +18,8 @@
 		<link type="text/css" rel="stylesheet"
 			href="#{request.contextPath}/resources/css/default.css" />
 		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/resources/css/style.css" />
+		<link type="text/css" rel="stylesheet"
 			href="#{request.contextPath}/resources/css/syntaxhighlighter/syntaxhighlighter.css" />
 
 		<ui:insert name="head"></ui:insert>
@@ -50,12 +52,13 @@
 						<li></li>
 						<li><h:commandLink action="#{controllerUsuario.logout}"
 								styleClass="css-link-menu">
-								<h:graphicImage url="/resources/images/cadastros.png" alt="Meus Dados"/>
+								<h:graphicImage url="/resources/images/cadastros.png"
+									alt="Meus Dados" />
 								<h:outputText value="Meus Dados" />
 							</h:commandLink></li>
 						<li><h:commandLink action="#{controllerUsuario.logout}"
 								styleClass="css-link-menu">
-								<h:graphicImage url="/resources/images/logout.png" alt="Sair"/>
+								<h:graphicImage url="/resources/images/logout.png" alt="Sair" />
 								<h:outputText value="Sair" />
 							</h:commandLink></li>
 					</ul>
@@ -82,8 +85,6 @@
 						<p:submenu label="Veículos" style="margin-top:2px">
 							<p:menuitem value="Meus Veículos" icon="ui-icon-disk" />
 							<p:menuitem value="Rastrear Veículo" icon="ui-icon-search" />
-							<p:menuitem value="Bloquear Veículo" ajax="false"
-								icon="ui-icon-close" />
 						</p:submenu>
 					</p:menu>
 				</h:form>

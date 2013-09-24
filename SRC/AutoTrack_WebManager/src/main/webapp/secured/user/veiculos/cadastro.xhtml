@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/templates/baseTemplate.xhtml">
+
+	<ui:define name="content">
+		<p:growl id="message" showDetail="true" sticky="true"
+			autoUpdate="true" />
+		<h1 class="title ui-widget-header ui-corner-all">Meus Veículos</h1>
+		<div class="entry">
+			<h:form id="formFiltroVeiculos">
+				<p:fieldset>
+					<h:panelGrid columns="2">
+						<h:outputText value="Placa: *" styleClass="label-class" />
+						<h:panelGrid columns="2" width="100%">
+							<p:inputText id="placa" size="30" />
+							<p:message for="placa" styleClass="css-messagem-erro" />
+						</h:panelGrid>
+
+						<h:outputText value="Marca: *" styleClass="label-class" />
+						<h:panelGrid columns="2" width="100%">
+							<p:inputText id="marca" size="30" />
+							<p:message for="marca" styleClass="css-messagem-erro" />
+						</h:panelGrid>
+
+						<h:outputText value="Modelo: *" styleClass="label-class" />
+						<h:panelGrid columns="2" width="100%">
+							<p:inputText id="modelo" size="30" />
+							<p:message for="modelo" styleClass="css-messagem-erro" />
+						</h:panelGrid>
+
+
+						<h:outputText value="Cor: *" styleClass="label-class" />
+						<h:panelGrid columns="2" width="100%">
+							<p:inputText id="cor" size="30" />
+							<p:message for="cor" styleClass="css-messagem-erro" />
+						</h:panelGrid>
+
+						<h:outputText value="Chassi: *" styleClass="label-class" />
+						<h:panelGrid columns="2" width="100%">
+							<p:inputText id="chassi" size="60" />
+							<p:message for="chassi" styleClass="css-messagem-erro" />
+						</h:panelGrid>
+
+						<h:outputText value="Ano: *" styleClass="label-class" />
+						<h:panelGrid columns="2" width="100%">
+							<p:inputText id="ano" size="30" />
+							<p:message for="ano" styleClass="css-messagem-erro" />
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<br />
+					* Campos obrigatórios
+					<br />
+					<br />
+					<p:commandButton value="Salvar e Fechar" />
+					<p:commandButton value="Cancelar" immediate="true" />
+
+				</p:fieldset>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
