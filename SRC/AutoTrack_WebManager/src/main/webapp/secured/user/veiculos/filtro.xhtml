@@ -3,81 +3,82 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="/resources/templates/baseTemplate.xhtml">
-
-	<ui:define name="head">
-		<script type="text/javascript"
-			src="http://maps.google.com/maps/api/js?sensor=true"></script>
-		<script type="text/javascript">
-			
-		</script>
-	</ui:define>
-
 
 	<ui:define name="content">
 		<p:growl id="message" showDetail="true" sticky="true"
 			autoUpdate="true" />
 		<h1 class="title ui-widget-header ui-corner-all">Meus Veículos</h1>
 		<div class="entry">
-			<h:form id="formFiltroVeiculos">
+			<h:form id="formFiltro">
 				<h:panelGrid columns="3">
 					<h:outputText value="Placa" styleClass="label-class" />
-					<p:inputMask  mask="aaa-9999"/> 
-						
-					<p:commandButton value="Pesquisar" />
+					<p:inputMask mask="aaa-9999"
+						value="#{controllerVeiculo.placaPesquisa}" />
+					<p:commandButton value="Pesquisar"
+						action="#{controllerVeiculo.pesquisar}" ajax="false" />
 				</h:panelGrid>
 				<br />
-				<p:commandButton value="Novo" styleClass="cssBtn"
-					 />
+				<p:commandButton value="Novo" styleClass="cssBtn" ajax="false"
+					action="#{controllerVeiculo.prepararInclusao}" />
 				<p:commandButton value="Excluir" styleClass="cssBtn"
-					
-					disabled="#{empty beanContrato.resultadoPesquisa}"
-					onclick='return confirm("Deseja continuar com a exclusão?");' />
+					disabled="#{empty controllerVeiculo.resultadoPesquisa}"
+					onclick='return confirm("Deseja continuar com a exclusão?");'
+					ajax="false" action="#{controllerVeiculo.excluir}" />
 
 				<br />
 				<br />
-				
-				<p:dataTable  var="item"
-				 	paginator="true" rows="10" paginatorPosition="bottom"  
-				 	
-				 	emptyMessage="Nenhum registro encontrado">  
-        			<f:facet name="header" >  
+
+				<p:dataTable id="veiculosTable" var="item" paginator="true"
+					rows="10" paginatorPosition="bottom"
+					value="#{controllerVeiculo.resultadoPesquisa}"
+					emptyMessage="Nenhum registro encontrado">
+					<f:facet name="header">  
             			Veículos Cadastrados
         			</f:facet>
-        			<p:column selectionMode="multiple" style="width:18px" />  
-  					<p:column  headerText="Placa">
-  						<h:commandLink
-							value="#{item.nroContrato}"
-							actionListener="#{beanContrato.prepararEdicao}"
+					<p:column style="text-align:left;width:5%;">
+						<f:facet name="header">
+							<t:selectBooleanCheckbox id="chkTodos" styleClass="cssComponente"
+								onclick="checkUnAll(document.formFiltro, this, 'chk')" />
+						</f:facet>
+						<h:selectBooleanCheckbox id="chk" value="#{item.selecionado}"
+							styleClass="cssComponente"
+							onclick="desmarcaCheckTodos(document.formFiltro, this, 'chkTodos')" />
+					</p:column>
+					<p:column headerText="Placa">
+						<h:commandLink value="#{item.elemento.placa}"
+							actionListener="#{controllerVeiculo.prepararEdicao}"
 							action="cadastro">
+							<f:param name="elemento" value="#{item.elemento}" />
 						</h:commandLink>
-	       			</p:column>  
-  
-       				<p:column  headerText="Marca">  
-            			<h:commandLink value="#{item.cliente.nomeCliente}"
-            				actionListener="#{beanContrato.prepararEdicao}"
+					</p:column>
+
+					<p:column headerText="Marca">
+						<h:commandLink value="#{item.elemento.marca}"
+							actionListener="#{controllerVeiculo.prepararEdicao}"
 							action="cadastro">
-							
-            			</h:commandLink>  
-        			</p:column> 
-        			
-        			<p:column headerText="Modelo">
-        				<h:commandLink
-							value="#{item.dataAssinatura}"
-							actionListener="#{beanContrato.prepararEdicao}"
+							<f:param name="elemento" value="#{item.elemento}" />
+						</h:commandLink>
+					</p:column>
+
+					<p:column headerText="Modelo">
+						<h:commandLink value="#{item.elemento.modelo}"
+							actionListener="#{controllerVeiculo.prepararEdicao}"
 							action="cadastro">
-						</h:commandLink>  
-        			</p:column>   
-        			
-        			<p:column headerText="Cor">
-        				<h:commandLink
-							value="#{item.dataAssinatura}"
-							actionListener="#{beanContrato.prepararEdicao}"
+							<f:param name="elemento" value="#{item.elemento}" />
+						</h:commandLink>
+					</p:column>
+
+					<p:column headerText="Cor">
+						<h:commandLink value="#{item.elemento.cor}"
+							actionListener="#{controllerVeiculo.prepararEdicao}"
 							action="cadastro">
-						</h:commandLink>  
-        			</p:column>        			
-        			   
-  			</p:dataTable>
+							<f:param name="elemento" value="#{item.elemento}" />
+						</h:commandLink>
+					</p:column>
+
+				</p:dataTable>
 			</h:form>
 		</div>
 	</ui:define>

@@ -19,8 +19,9 @@ public interface URL {
 	
 	String USER_PAGINA_PRINCIPAL = USER_BASE + "/ativarModulos/filtro.xhtml";
 	String USER_PAGINA_RASTREAMENTO = USER_BASE + "/veiculos/rastrearVeiculo.xhtml";
+	String USER_FILTRO_VEICULOS = USER_BASE + "/veiculos/filtro.xhtml";
+	String USER_CADASTRO_VEICULOS = USER_BASE + "/veiculos/cadastro.xhtml";
 	
-		
 	String ADMIN_PAGINA_PRINCIPAL = ADMIN_BASE + "/principal.xhtml";
 	
 			

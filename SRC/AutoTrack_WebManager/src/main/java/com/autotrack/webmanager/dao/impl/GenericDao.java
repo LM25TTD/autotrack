@@ -86,7 +86,21 @@ public class GenericDao implements IGenericDao {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			tratarErro(ex, "inclus�o");
+			tratarErro(ex, "inclusão");
+		}
+
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void saveOrUpdate(Object objeto) throws Exception {
+		try {
+			this.sessionFactory.getCurrentSession().saveOrUpdate(objeto);
+			this.sessionFactory.getCurrentSession().persist(objeto);
+			this.sessionFactory.getCurrentSession().flush();
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			tratarErro(ex, "inclusão");
 		}
 
 	}

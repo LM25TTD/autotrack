@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -21,7 +22,8 @@
 			href="#{request.contextPath}/resources/css/style.css" />
 		<link type="text/css" rel="stylesheet"
 			href="#{request.contextPath}/resources/css/syntaxhighlighter/syntaxhighlighter.css" />
-
+		<script language="JavaScript1.2"
+			src="#{request.contextPath}/resources/javascript/controlecheckbox.js"></script>
 		<ui:insert name="head"></ui:insert>
 
 		<script type="text/javascript">
@@ -83,8 +85,10 @@
 							<p:menuitem value="Ativar Módulo" icon="ui-icon-disk" />
 						</p:submenu>
 						<p:submenu label="Veículos" style="margin-top:2px">
-							<p:menuitem value="Meus Veículos" icon="ui-icon-disk" />
-							<p:menuitem value="Rastrear Veículo" icon="ui-icon-search" />
+							<p:menuitem value="Meus Veículos" icon="ui-icon-disk"
+								url="/secured/user/veiculos/filtro.xhtml" />
+							<p:menuitem value="Rastrear Veículo" icon="ui-icon-search"
+								url="/secured/user/veiculos/rastrearVeiculo.xhtml" />
 						</p:submenu>
 					</p:menu>
 				</h:form>
@@ -110,7 +114,7 @@
 			<p:ajaxStatus
 				style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
 				<f:facet name="start">
-					<p:graphicImage value="resources/design/loading.gif" />
+					<p:graphicImage value="/resources/design/loading.gif" />
 				</f:facet>
 
 				<f:facet name="complete">

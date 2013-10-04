@@ -11,9 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 import com.autotrack.webmanager.service.Menuable;
 
 @Entity
@@ -51,7 +48,6 @@ public class Veiculo implements Serializable, Menuable {
 	private Usuario dono;
 
 	@OneToOne
-	@Cascade(CascadeType.DETACH)
 	private ModuloVeicular moduloAcoplado;
 
 	public int getId() {

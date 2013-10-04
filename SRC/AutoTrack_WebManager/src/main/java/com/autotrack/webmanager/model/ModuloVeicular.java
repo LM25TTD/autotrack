@@ -51,7 +51,6 @@ public class ModuloVeicular implements Serializable, Menuable {
 	private Usuario dono;
 
 	@OneToOne
-	@Cascade(CascadeType.DETACH)
 	private Veiculo veiculoHospeiro;
 
 	public int getId() {

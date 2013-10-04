@@ -22,7 +22,10 @@ public interface IGenericDao {
 	public void reconnect(Object objeto);
 
 	public void save(Object objeto) throws Exception;
-
+	
+	public void saveOrUpdate(Object objeto) throws Exception;
+	
+	
 	public <T> T getObjeto(Class<T> classe, Serializable id);
 
 	public void update(Object objeto) throws Exception;
