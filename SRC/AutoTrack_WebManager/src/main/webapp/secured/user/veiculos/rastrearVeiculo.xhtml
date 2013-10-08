@@ -40,13 +40,13 @@
 							rendered="#{!empty controllerVeiculo.moduloAtual}"
 							listener="#{controllerVeiculo.obterPosicaoVeiculo}"
 							update="panelGMap" />
-						<p:commandButton id="btnBloquear" value="Bloquear"
+						<p:commandButton id="btnBloquear" value="Bloquear Veículo"
 							widgetVar="cp_btnBloquear"
 							actionListener="#{controllerVeiculo.bloquearVeiculo}"
 							rendered="#{!empty controllerVeiculo.moduloAtual and !controllerVeiculo.moduloAtual.bloqueado}"
 							update="panelButtons" />
 
-						<p:commandButton id="btnDesbloquear" value="Desbloquear"
+						<p:commandButton id="btnDesbloquear" value="Desbloquear Veículo"
 							widgetVar="cp_btnDesbloquear"
 							actionListener="#{controllerVeiculo.desbloquearVeiculo}"
 							rendered="#{!empty controllerVeiculo.moduloAtual and controllerVeiculo.moduloAtual.bloqueado}"

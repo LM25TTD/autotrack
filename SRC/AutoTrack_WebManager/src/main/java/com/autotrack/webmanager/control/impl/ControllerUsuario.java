@@ -1,5 +1,6 @@
 package com.autotrack.webmanager.control.impl;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import javax.faces.application.FacesMessage;
@@ -15,12 +16,18 @@ import org.springframework.stereotype.Controller;
 
 import com.autotrack.webmanager.constants.Messages;
 import com.autotrack.webmanager.constants.URL;
+import com.autotrack.webmanager.dao.IUsuarioDao;
 import com.autotrack.webmanager.security.impl.AuthenticationService;
 import com.autotrack.webmanager.util.Crypto;
 
 @Controller
 @Scope("session")
-public class ControllerUsuario {
+public class ControllerUsuario implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5106445862037517518L;
 
 	@Autowired
 	private AuthenticationService authenticationService;
@@ -28,6 +35,10 @@ public class ControllerUsuario {
 	private String userName;
 	private String password;
 	private String message;
+	private String realName;
+
+	@Autowired
+	private IUsuarioDao usuarioDao;
 
 	public boolean validarCampos() {
 		boolean retorno = true;
@@ -61,7 +72,9 @@ public class ControllerUsuario {
 					return URL.SEM_NAVEGACAO;
 				}
 				message = Messages.LOGIN_SUCESSO;
-
+				realName = usuarioDao.obterPeloLogin(
+						authenticationService.getUsuarioLogado().getUsername())
+						.getNome();
 				Collection<GrantedAuthority> userAuthorities = authenticationService
 						.getUsuarioLogado().getAuthorities();
 				if (userAuthorities.contains(new SimpleGrantedAuthority(
@@ -129,6 +142,22 @@ public class ControllerUsuario {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	public IUsuarioDao getUsuarioDao() {
+		return usuarioDao;
+	}
+
+	public void setUsuarioDao(IUsuarioDao usuarioDao) {
+		this.usuarioDao = usuarioDao;
 	}
 
 }

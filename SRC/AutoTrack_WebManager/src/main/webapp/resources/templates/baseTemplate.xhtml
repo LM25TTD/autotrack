@@ -70,7 +70,7 @@
 			<div id="globalthemeswitcher">
 				<span
 					style="font-size: 16px; font-weight: bold; font-style: italic; padding-bottom: 10px">Bem-Vindo
-					Leandro</span>
+					#{controllerUsuario.realName}</span>
 			</div>
 		</div>
 
@@ -81,8 +81,8 @@
 					<p:menu id="sidebar"
 						style="float: left;width: 100%;padding: 0px 0px 0px 0px;overflow: hidden;">
 						<p:submenu label="Módulos de Rastreamento" style="margin-top:0px">
-							<p:menuitem value="Meus Módulos" icon="ui-icon-arrowrefresh-1-w" />
-							<p:menuitem value="Ativar Módulo" icon="ui-icon-disk" />
+							<p:menuitem value="Meus Módulos" icon="ui-icon-arrowrefresh-1-w"
+								url="/secured/user/modulos/filtro.xhtml" />
 						</p:submenu>
 						<p:submenu label="Veículos" style="margin-top:2px">
 							<p:menuitem value="Meus Veículos" icon="ui-icon-disk"

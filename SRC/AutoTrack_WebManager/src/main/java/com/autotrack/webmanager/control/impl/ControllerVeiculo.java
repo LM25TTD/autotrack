@@ -61,8 +61,8 @@ public class ControllerVeiculo implements Serializable {
 	public ControllerVeiculo() {
 		mapa = new DefaultMapModel();
 	}
-	
-	public String prepararInclusao(){
+
+	public String prepararInclusao() {
 		veiculoAtual = new Veiculo();
 		return URL.USER_CADASTRO_VEICULOS;
 	}
@@ -105,22 +105,18 @@ public class ControllerVeiculo implements Serializable {
 	public boolean validarDados() {
 		boolean dadosValidados = true;
 
-		/*if(veiculoDao.existePlaca(veiculoAtual.getPlaca())){
-			FacesContext.getCurrentInstance().addMessage(
-					"formCadastro:placa",
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							Messages.ERRO, Messages.EXISTE_PLACA));
-			dadosValidados = false;
-		}
-		
-		if(veiculoDao.existeChassi(veiculoAtual.getChassi())){
-			FacesContext.getCurrentInstance().addMessage(
-					"formCadastro:chassi",
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							Messages.ERRO, Messages.EXISTE_CHASSI));
-			dadosValidados = false;
-		}*/		
-		
+		/*
+		 * if(veiculoDao.existePlaca(veiculoAtual.getPlaca())){
+		 * FacesContext.getCurrentInstance().addMessage( "formCadastro:placa",
+		 * new FacesMessage(FacesMessage.SEVERITY_ERROR, Messages.ERRO,
+		 * Messages.EXISTE_PLACA)); dadosValidados = false; }
+		 * 
+		 * if(veiculoDao.existeChassi(veiculoAtual.getChassi())){
+		 * FacesContext.getCurrentInstance().addMessage( "formCadastro:chassi",
+		 * new FacesMessage(FacesMessage.SEVERITY_ERROR, Messages.ERRO,
+		 * Messages.EXISTE_CHASSI)); dadosValidados = false; }
+		 */
+
 		if ((veiculoAtual.getAno() < 1900)
 				|| (veiculoAtual.getAno() > (Calendar.getInstance().get(
 						Calendar.YEAR) + 1))) {
@@ -334,7 +330,8 @@ public class ControllerVeiculo implements Serializable {
 					.getUsuarioLogado().getUsername());
 			usuario.getVeiculosDoUsuario().size();
 
-			List<Veiculo> veiculos = usuario.getVeiculosDoUsuario();
+			List<Veiculo> veiculos = veiculoDao
+					.obterVeiculosRastreaveisPorUsuario(usuario);
 
 			for (Veiculo veiculo : veiculos) {
 				veiculosRastreamento.add(new SelectItem(veiculo, veiculo
