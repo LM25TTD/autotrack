@@ -26,4 +26,8 @@ public interface Messages {
 	String EXISTE_PLACA = "Já existe veículo com a placa informada!";
 	String EXISTE_CHASSI = "Já existe veículo com o chassi informado!";
 	
+	String SUCESSO_OPERACAO = "Operação realizada com sucesso!";
+	String ERRO_OPERACAO = "Ocorreu um erro ao realizar a operação!";
+	
+	
 }

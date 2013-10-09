@@ -27,6 +27,17 @@ public class VeiculoDao extends GenericDao implements IVeiculoDao {
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<Veiculo> obterVeiculosLivresPorUsuario(Usuario usuario) {
+		Query query = this
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(
+						"from Veiculo where dono.id=:donoId and moduloAcoplado=null");
+		query.setParameter("donoId", usuario.getId());
+		return query.list();
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Veiculo> obterVeiculosRastreaveisPorUsuario(Usuario usuario) {
 		Query query = this
 				.getSessionFactory()
