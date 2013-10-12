@@ -61,7 +61,7 @@ public class ControllerVeiculo implements Serializable {
 	public ControllerVeiculo() {
 		mapa = new DefaultMapModel();
 	}
-
+	
 	public String prepararInclusao() {
 		veiculoAtual = new Veiculo();
 		return URL.USER_CADASTRO_VEICULOS;
@@ -271,7 +271,7 @@ public class ControllerVeiculo implements Serializable {
 	}
 
 	public void carregarModulo() {
-		mapa = new DefaultMapModel();
+		//mapa = new DefaultMapModel();
 		marcador = null;
 		circulo = null;
 		try {
@@ -323,6 +323,7 @@ public class ControllerVeiculo implements Serializable {
 
 	}
 
+		
 	public void carregarListaVeiculos() {
 		veiculosRastreamento = new ArrayList<SelectItem>();
 		if (authenticationService != null) {

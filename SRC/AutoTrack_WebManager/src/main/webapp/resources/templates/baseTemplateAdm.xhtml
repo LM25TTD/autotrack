@@ -21,6 +21,10 @@
 			href="#{request.contextPath}/resources/css/style.css" />
 		<link type="text/css" rel="stylesheet"
 			href="#{request.contextPath}/resources/css/syntaxhighlighter/syntaxhighlighter.css" />
+		<script language="JavaScript1.2"
+			src="#{request.contextPath}/resources/javascript/controlecheckbox.js"></script>
+		<script language="JavaScript1.2"
+			src="#{request.contextPath}/resources/javascript/mascaras.js"></script>	
 
 		<ui:insert name="head"></ui:insert>
 
@@ -43,25 +47,32 @@
 					alt="Logo" style="height: 95px; width: 500px;" />
 			</div>
 
-			<div id="menu" class="ui-widget">
-				<ul id="main">
-					<li></li>
-					<li></li>
-					<li></li>
-					<li class="current_page_item"><a
-						href="#{request.contextPath}/ui/macosx.jsf"
-						style="background: url('resources/design/mac.png') no-repeat center left;">Meu
-							Cadastro</a></li>
-					<li class="current_page_item"><a
-						href="#{request.contextPath}/ui/macosx.jsf"
-						style="background: url('resources/design/mac.png') no-repeat center left;">Sair</a></li>
-				</ul>
-			</div>
+			<h:form id="menuForm">
+
+				<div id="menu" class="ui-widget">
+					<ul id="main">
+						<li></li>
+						<li></li>
+						<li></li>
+						<li><h:commandLink action="#{controllerUsuario.logout}"
+								styleClass="css-link-menu">
+								<h:graphicImage url="/resources/images/cadastros.png"
+									alt="Meus Dados" />
+								<h:outputText value="Meus Dados" />
+							</h:commandLink></li>
+						<li><h:commandLink action="#{controllerUsuario.logout}"
+								styleClass="css-link-menu">
+								<h:graphicImage url="/resources/images/logout.png" alt="Sair" />
+								<h:outputText value="Sair" />
+							</h:commandLink></li>
+					</ul>
+				</div>
+			</h:form>
 
 			<div id="globalthemeswitcher">
 				<span
 					style="font-size: 16px; font-weight: bold; font-style: italic; padding-bottom: 10px">Bem-Vindo
-					Leandro</span>
+					#{controllerUsuario.realName}</span>
 			</div>
 		</div>
 
@@ -71,15 +82,13 @@
 				<h:form>
 					<p:menu id="sidebar"
 						style="float: left;width: 100%;padding: 0px 0px 0px 0px;overflow: hidden;">
-						<p:submenu label="Módulos de Rastreamento" style="margin-top:0px">
-							<p:menuitem value="Meus Módulos" icon="ui-icon-arrowrefresh-1-w" />
-							<p:menuitem value="Ativar Módulo" icon="ui-icon-disk" />
-						</p:submenu>
-						<p:submenu label="Veículos" style="margin-top:2px">
-							<p:menuitem value="Meus Veículos" icon="ui-icon-disk" />
-							<p:menuitem value="Rastrear Veículo" icon="ui-icon-search" />
-							<p:menuitem value="Bloquear Veículo" ajax="false"
-								icon="ui-icon-close" />
+						<p:submenu label="Administração" style="margin-top:0px">
+							<p:menuitem value="Usuários" icon="ui-icon-arrowrefresh-1-w"
+								url="/secured/admin/usuarios/filtro.xhtml" />
+							<p:menuitem value="Módulos" icon="ui-icon-disk"
+								url="/secured/admin/modulos/filtro.xhtml" />
+							<p:menuitem value="Designações" icon="ui-icon-search"
+								url="/secured/admin/designacoes/filtro.xhtml" />
 						</p:submenu>
 					</p:menu>
 				</h:form>
@@ -105,7 +114,7 @@
 			<p:ajaxStatus
 				style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
 				<f:facet name="start">
-					<p:graphicImage value="resources/design/loading.gif" />
+					<p:graphicImage value="/resources/design/loading.gif" />
 				</f:facet>
 
 				<f:facet name="complete">

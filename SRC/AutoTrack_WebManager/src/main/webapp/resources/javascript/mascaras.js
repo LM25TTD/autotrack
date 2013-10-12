@@ -1,5 +1,3 @@
-// PDNET - 28 de dezembro de 2011 - Lionel Sousa
-
 // Mascara CNPJ
 function mascaraCNPJ(evento){  
      
@@ -180,7 +178,7 @@ function mascaraTelefone(evento){
 	}
 }
 
-// Permite somente números
+// Permite somente nï¿½meros
 function somenteNumeros(numero) {
 
 	if(document.all){ // Internet Explorer
@@ -190,7 +188,7 @@ function somenteNumeros(numero) {
 		tecla = numero.which;
 	}
 		
-	//tecla==8 é para permitir o backspace funcionar para apagar
+	//tecla==8 ï¿½ para permitir o backspace funcionar para apagar
 	if ( (tecla >= 48 && tecla <= 57) || tecla == 8 || tecla == 0 ) {
 		return true;
 	}
@@ -199,7 +197,7 @@ function somenteNumeros(numero) {
 	}
 }
 
-//Readonly(não permite a edição pelo usuário)
+//Readonly(nï¿½o permite a ediï¿½ï¿½o pelo usuï¿½rio)
 function readonly(evento) {
 
 	if(document.all){ // Internet Explorer
@@ -217,7 +215,7 @@ function readonly(evento) {
 	}
 }
 
-// Formata valores monetários (R$ 00.000.000,00)
+// Formata valores monetï¿½rios (R$ 00.000.000,00)
 function formatarNumero(ObjForm,teclapres,tammax,decimais)
 {
   var bksp = 8;
@@ -257,7 +255,7 @@ function formatarNumero(ObjForm,teclapres,tammax,decimais)
 			vr	= vr.replace( ",", "" );
 		}
 
-		//Cálculo para casas decimais setadas por parametro
+		//Cï¿½lculo para casas decimais setadas por parametro
 		if ( tecla == bksp || (tecla >= key_0 && tecla <= key_9) )
 		{
 			if (decimais > 0){
