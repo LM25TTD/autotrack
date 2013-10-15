@@ -55,10 +55,11 @@ public class Usuario implements Serializable, UserDetails {
 	private String senha;
 
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+	@Cascade(CascadeType.ALL)
 	private List<PerfilUsuario> perfisUsuario;
 
 	@OneToMany(mappedBy = "dono", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DETACH })
+	@Cascade(CascadeType.ALL)
 	private List<ModuloVeicular> modulosDoUsuario;
 
 	@OneToMany(orphanRemoval = true, mappedBy = "dono", fetch = FetchType.LAZY)

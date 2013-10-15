@@ -9,168 +9,61 @@
 	<ui:define name="content">
 		<p:growl id="message" showDetail="true" sticky="true"
 			autoUpdate="true" />
-		<h1 class="title ui-widget-header ui-corner-all">Módulos Veiculares</h1>
+		<h1 class="title ui-widget-header ui-corner-all">Módulos
+			Veiculares</h1>
 		<div class="entry">
 			<h:form id="formFiltro">
 				<h:panelGrid columns="3">
 					<h:outputText value="Número de série" styleClass="label-class" />
 					<p:inputText value="#{controllerModuloVeicular.serialPesquisa}" />
 					<p:commandButton value="Pesquisar"
-						action="#{controllerModuloVeicular.pesquisar}" ajax="false" />
+						action="#{controllerModuloVeicular.pesquisarAdmin}" ajax="false" />
 				</h:panelGrid>
 				<br />
+				<p:commandButton value="Novo" styleClass="cssBtn" ajax="false"
+					action="#{controllerModuloVeicular.prepararInclusao}" />
+				<p:commandButton value="Excluir" styleClass="cssBtn"
+					disabled="#{empty controllerModuloVeicular.resultadoPesquisa}"
+					onclick='return confirm("Deseja continuar com a exclusão?");'
+					ajax="false" action="#{controllerModuloVeicular.excluir}" />
+
 				<br />
-				<p:dataTable id="veiculosTable" var="item" paginator="true"
-					rows="10" paginatorPosition="bottom"
+				<br />
+
+				<p:dataTable id="modulosTable" var="item" paginator="true" rows="10"
+					paginatorPosition="bottom"
 					value="#{controllerModuloVeicular.resultadoPesquisa}"
 					emptyMessage="Nenhum registro encontrado">
 					<f:facet name="header">  
             			Módulos de Rastreamento
         			</f:facet>
+					<p:column style="text-align:left;width:5%;">
+						<f:facet name="header">
+							<t:selectBooleanCheckbox id="chkTodos" styleClass="cssComponente"
+								onclick="checkUnAll(document.formFiltro, this, 'chk')" />
+						</f:facet>
+						<h:selectBooleanCheckbox id="chk" value="#{item.selecionado}"
+							styleClass="cssComponente"
+							onclick="desmarcaCheckTodos(document.formFiltro, this, 'chkTodos')" />
+					</p:column>
+
 					<p:column headerText="Número de Série">
 						<p:commandLink value="#{item.elemento.numSerial}"
-							actionListener="#{controllerModuloVeicular.prepararExibicao}"
-							oncomplete="moduloInfoWidget.show();" ajax="true"
-							update=":moduloInfoDialog">
+							actionListener="#{controllerModuloVeicular.prepararEdicao}"
+							action="cadastro" ajax="false">
 							<f:param name="elemento" value="#{item.elemento}" />
 						</p:commandLink>
 					</p:column>
 
 					<p:column headerText="Número Celular">
 						<p:commandLink value="#{item.elemento.numCelular}"
-							actionListener="#{controllerModuloVeicular.prepararExibicao}"
-							oncomplete="moduloInfoWidget.show();" ajax="true"
-							update=":moduloInfoDialog">
+							actionListener="#{controllerModuloVeicular.prepararEdicao}"
+							action="cadastro" ajax="false">
 							<f:param name="elemento" value="#{item.elemento}" />
-						</p:commandLink>
-					</p:column>
-
-					<p:column headerText="Veículo de Instalação">
-						<p:commandLink
-							rendered="#{not empty item.elemento.veiculoHospeiro}"
-							value="#{item.elemento.veiculoHospeiro.marca} #{item.elemento.veiculoHospeiro.modelo}, placa #{item.elemento.veiculoHospeiro.placa}    "
-							actionListener="#{controllerModuloVeicular.prepararExibicao}"
-							oncomplete="moduloInfoWidget.show();" ajax="true"
-							update=":moduloInfoDialog">
-							<f:param name="elemento" value="#{item.elemento}" />
-						</p:commandLink>
-
-						<p:commandLink rendered="#{empty item.elemento.veiculoHospeiro}"
-							value="Nenhum    "
-							actionListener="#{controllerModuloVeicular.prepararExibicao}"
-							oncomplete="moduloInfoWidget.show();" ajax="true"
-							update=":moduloInfoDialog">
-							<f:param name="elemento" value="#{item.elemento}" />
-						</p:commandLink>
-
-					</p:column>
-					<p:column headerText="Ação" style="text-align:center;width:5%;">
-						<p:commandLink
-							rendered="#{not empty item.elemento.veiculoHospeiro}"
-							actionListener="#{controllerModuloVeicular.removerVeiculo}"
-							ajax="false" id="iconOnly" icon="ui-icon-disk"
-							title="Remover do Veículo">
-							<f:param name="elemento" value="#{item.elemento}" />
-							<p:graphicImage value="/resources/images/apagar.png" />
-							<p:confirm header="Confirmação"
-								message="Deseja realmente desassociar este módulo do veículo?"
-								icon="ui-icon-alert" />
-						</p:commandLink>
-
-
-						<p:confirmDialog global="true">
-							<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"
-								icon="ui-icon-check" ajax="true" />
-							<p:commandButton value="Não" type="button"
-								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-						</p:confirmDialog>
-
-
-						<p:commandLink rendered="#{empty item.elemento.veiculoHospeiro}"
-							actionListener="#{controllerModuloVeicular.preparaAssociarVeiculo}"
-							icon="ui-icon-disk" title="Associar Veículo"
-							oncomplete="moduloAddVeiculoWidget.show();" ajax="true"
-							update=":moduloAddVeiculoDialog">
-							<f:param name="elemento" value="#{item.elemento}" />
-							<p:graphicImage value="/resources/images/adicionar.gif" />
 						</p:commandLink>
 					</p:column>
 				</p:dataTable>
 			</h:form>
 		</div>
-
-		<p:dialog id="moduloInfoDialog" header="Informações do Módulo"
-			widgetVar="moduloInfoWidget" modal="true" resizable="false"
-			closable="false">
-			<h:form id="moduloInfoForm">
-				<h:panelGrid columns="2">
-					<h:outputText value="Número de Série: " styleClass="label-class" />
-					<h:outputText
-						value="#{controllerModuloVeicular.moduloVeicularAtual.numSerial}"
-						styleClass="label-class" />
-
-					<h:outputText value="Número Celular: " styleClass="label-class" />
-					<h:outputText
-						value="#{controllerModuloVeicular.moduloVeicularAtual.numCelular}"
-						styleClass="label-class" />
-
-					<h:outputText value="Veículo de instalação: "
-						styleClass="label-class" />
-					<h:outputText
-						rendered="#{not empty controllerModuloVeicular.moduloVeicularAtual.veiculoHospeiro}"
-						value="#{controllerModuloVeicular.moduloVeicularAtual.veiculoHospeiro.marca} #{controllerModuloVeicular.moduloVeicularAtual.veiculoHospeiro.modelo}, placa #{controllerModuloVeicular.moduloVeicularAtual.veiculoHospeiro.placa}"
-						styleClass="label-class" />
-					<h:outputText
-						rendered="#{empty controllerModuloVeicular.moduloVeicularAtual.veiculoHospeiro}"
-						value="Nenhum" styleClass="label-class" />
-				</h:panelGrid>
-				<br />
-				<h:panelGrid>
-					<p:commandButton value="Fechar"
-						actionListener="#{controllerModuloVeicular.limparModuloVeicularAtual}"
-						ajax="true" oncomplete="moduloInfoWidget.hide();" />
-				</h:panelGrid>
-			</h:form>
-		</p:dialog>
-
-		<p:dialog id="moduloAddVeiculoDialog" header="Associar Veículo"
-			widgetVar="moduloAddVeiculoWidget" modal="true" resizable="false"
-			closable="false">
-			<h:form id="moduloAddVeiculoForm">
-				<h:panelGrid columns="2">
-					<h:outputText value="Número de Série: " styleClass="label-class" />
-					<h:outputText
-						value="#{controllerModuloVeicular.moduloVeicularAtual.numSerial}"
-						styleClass="label-class" />
-
-					<h:outputText value="Número Celular: " styleClass="label-class" />
-					<h:outputText
-						value="#{controllerModuloVeicular.moduloVeicularAtual.numCelular}"
-						styleClass="label-class" />
-
-					<h:outputText value="Veículo de instalação: "
-						styleClass="label-class" />
-					<p:selectOneMenu
-						value="#{controllerModuloVeicular.moduloVeicularAtual.veiculoHospeiro}"
-						converter="SelectOneMenuConverter">
-						<f:selectItem itemLabel="Selecione um veiculo..." itemValue="" />
-						<f:selectItems
-							value="#{controllerModuloVeicular.veiculosAssociacao}" />
-					</p:selectOneMenu>
-				</h:panelGrid>
-				<br />
-				<h:panelGrid columns="2">
-					<p:commandButton value="Salvar"
-						actionListener="#{controllerModuloVeicular.associarVeiculo}"
-						ajax="true" oncomplete="moduloAddVeiculoWidget.hide();" update=":formFiltro:veiculosTable"/>
-					<p:commandButton value="Cancelar"
-						actionListener="#{controllerModuloVeicular.limparModuloVeicularAtual}"
-						ajax="true" oncomplete="moduloAddVeiculoWidget.hide();" />
-				</h:panelGrid>
-			</h:form>
-		</p:dialog>
-
-
-
 	</ui:define>
 </ui:composition>

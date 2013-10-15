@@ -39,7 +39,7 @@ public class ModuloVeicular implements Serializable, Menuable {
 	private String numCelular;
 
 	@Column(nullable = false)
-	private boolean bloqueado;
+	private boolean bloqueado=false;
 
 	@OneToMany(orphanRemoval = true, mappedBy = "moduloDeOrigem", fetch = FetchType.LAZY)
 	private List<LogPosicao> posicoes;

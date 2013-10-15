@@ -12,14 +12,23 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.autotrack.webmanager.constants.URL;
+import com.autotrack.webmanager.service.Menuable;
+
 @Entity
 @Table(name = "tb_Perfil")
-public class Perfil implements Serializable {
+public class Perfil implements Serializable, Menuable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5305940341439320663L;
+	
+	private static final String ROLE_USER = "ROLE_USER";
+	private static final String ROLE_ADMIN = "ROLE_ADMIN";
+	private static final String ADMINSITRADOR = "Administrador";
+	private static final String USER_COM = "Usuário Comum";
+	private static final String PERF_INDEF = "Perfil Indefinido";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,6 +62,24 @@ public class Perfil implements Serializable {
 
 	public void setUsuariosComPerfil(List<PerfilUsuario> usuariosComPerfil) {
 		this.usuariosComPerfil = usuariosComPerfil;
+	}
+	
+	public String retornaPerfil(Perfil perfil){
+		if (perfil.getNomePerfil().equals(ROLE_ADMIN))
+			return ADMINSITRADOR;
+		if (perfil.getNomePerfil().equalsIgnoreCase(ROLE_USER))
+			return USER_COM;
+		return PERF_INDEF;
+	}
+
+	@Override
+	public String getLabel() {
+		return this.retornaPerfil(this);
+	}
+
+	@Override
+	public Integer getIdentifier() {
+		return this.idPerfil;
 	}
 	
 }

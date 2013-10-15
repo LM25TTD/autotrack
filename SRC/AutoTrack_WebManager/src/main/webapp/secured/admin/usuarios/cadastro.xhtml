@@ -8,62 +8,87 @@
 	<ui:define name="content">
 		<p:growl id="message" showDetail="true" sticky="true"
 			autoUpdate="true" />
-		<h1 class="title ui-widget-header ui-corner-all">Meus Veículos</h1>
+		<h1 class="title ui-widget-header ui-corner-all">Cadastro de
+			Usuário</h1>
 		<div class="entry">
 			<h:form id="formCadastro">
 				<p:fieldset>
 					<h:panelGrid columns="2">
-						<h:outputText value="Placa: *" styleClass="label-class" />
+						<h:outputText value="CPF: *" styleClass="label-class" />
 						<h:panelGrid columns="2" width="100%">
-							<p:inputMask id="placa"
-								value="#{controllerVeiculo.veiculoAtual.placa}" mask="aaa-9999" />
-							<p:message for="placa" styleClass="css-messagem-erro" />
+							<p:inputMask id="cpf" size="30"
+								value="#{controllerUsuario.usuarioAtual.cpf}"
+								mask="999.999.999-99" />
+							<p:message for="cpf" styleClass="css-messagem-erro" />
 						</h:panelGrid>
 
-						<h:outputText value="Marca: *" styleClass="label-class" />
+						<h:outputText value="Nome: *" styleClass="label-class" />
 						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="marca" size="30"
-								value="#{controllerVeiculo.veiculoAtual.marca}" />
-							<p:message for="marca" styleClass="css-messagem-erro" />
+							<p:inputText id="nome" size="80"
+								value="#{controllerUsuario.usuarioAtual.nome}" />
+							<p:message for="nome" styleClass="css-messagem-erro" />
 						</h:panelGrid>
 
-						<h:outputText value="Modelo: *" styleClass="label-class" />
+						<h:outputText value="Email: *" styleClass="label-class" />
 						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="modelo" size="30"
-								value="#{controllerVeiculo.veiculoAtual.modelo}" />
-							<p:message for="modelo" styleClass="css-messagem-erro" />
+							<p:inputText id="email" size="30"
+								value="#{controllerUsuario.usuarioAtual.email}" />
+							<p:message for="email" styleClass="css-messagem-erro" />
 						</h:panelGrid>
 
 
-						<h:outputText value="Cor: *" styleClass="label-class" />
+						<h:outputText value="Número de Celular: *"
+							styleClass="label-class" />
 						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="cor" size="30"
-								value="#{controllerVeiculo.veiculoAtual.cor}" />
-							<p:message for="cor" styleClass="css-messagem-erro" />
+							<p:inputMask id="celular" mask="(99)9999-9999" size="30"
+								value="#{controllerUsuario.usuarioAtual.numCelular}" />
+							<p:message for="celular" styleClass="css-messagem-erro" />
 						</h:panelGrid>
 
-						<h:outputText value="Chassi: *" styleClass="label-class" />
+						<h:outputText value="Login: *" styleClass="label-class" />
 						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="chassi" size="60"
-								value="#{controllerVeiculo.veiculoAtual.chassi}" />
-							<p:message for="chassi" styleClass="css-messagem-erro" />
+							<p:inputText id="login" size="30"
+								value="#{controllerUsuario.usuarioAtual.login}" />
+							<p:message for="login" styleClass="css-messagem-erro" />
 						</h:panelGrid>
 
-						<h:outputText value="Ano: *" styleClass="label-class" />
-						<h:panelGrid columns="2" width="100%">
-							<p:inputMask id="ano"
-								value="#{controllerVeiculo.veiculoAtual.ano}" mask="9999" />
-							<p:message for="ano" styleClass="css-messagem-erro" />
+						<h:outputText value="Senha: *" styleClass="label-class"
+							rendered="#{empty controllerUsuario.usuarioAtual.perfisUsuario}" />
+						<h:outputText value="Senha: " styleClass="label-class"
+							rendered="#{not empty controllerUsuario.usuarioAtual.perfisUsuario}" />
+
+						<h:panelGrid columns="3" width="100%">
+							<h:panelGrid columns="2" width="100%">
+								<p:password id="senha" size="30"
+									value="#{controllerUsuario.senha}" />
+								<p:message for="senha" styleClass="css-messagem-erro" />
+							</h:panelGrid>
+							<h:outputText value="Confirmar Senha: *" styleClass="label-class"
+								rendered="#{empty controllerUsuario.usuarioAtual.perfisUsuario}" />
+							<h:outputText value="Confirmar Senha: " styleClass="label-class"
+								rendered="#{not empty controllerUsuario.usuarioAtual.perfisUsuario}" />
+							<h:panelGrid columns="2" width="100%">
+								<p:password id="csenha" size="30"
+									value="#{controllerUsuario.csenha}" />
+								<p:message for="csenha" styleClass="css-messagem-erro" />
+							</h:panelGrid>
 						</h:panelGrid>
+
+						<h:outputText value="Perfil: *" styleClass="label-class" />
+						<p:selectOneMenu value="#{controllerUsuario.perfilUsuarioAtual}"
+							converter="SelectOneMenuConverter">
+							<f:selectItems value="#{controllerUsuario.perfisDisponiveis}" />
+						</p:selectOneMenu>
 					</h:panelGrid>
 
 					<br />
 					* Campos obrigatórios
 					<br />
 					<br />
-					<p:commandButton value="Salvar e Fechar" ajax="false" action="#{controllerVeiculo.salvar}"/>
+					<p:commandButton value="Salvar e Fechar" ajax="false"
+						action="#{controllerUsuario.salvar}" />
 					<p:commandButton value="Cancelar" immediate="true" ajax="false"
-						action="#{controllerVeiculo.cancelar}" />
+						action="#{controllerUsuario.cancelar}" />
 
 				</p:fieldset>
 			</h:form>

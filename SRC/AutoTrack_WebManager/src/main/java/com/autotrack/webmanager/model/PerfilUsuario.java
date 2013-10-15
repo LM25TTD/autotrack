@@ -27,6 +27,14 @@ public class PerfilUsuario implements Serializable {
 
 	@ManyToOne
 	private Usuario usuario;
+	
+	public PerfilUsuario() {
+	}
+	
+	public PerfilUsuario(Perfil perfil, Usuario usuario) {
+		this.perfil = perfil;
+		this.usuario = usuario;
+	}
 
 	public int getId() {
 		return id;

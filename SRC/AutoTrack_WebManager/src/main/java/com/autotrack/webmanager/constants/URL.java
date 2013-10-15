@@ -4,6 +4,9 @@ public interface URL {
 	
 	String ROLE_USER = "ROLE_USER";
 	String ROLE_ADMIN = "ROLE_ADMIN";
+	String ADMINSITRADOR = "Administrador";
+	String USER_COM = "Usuário Comum";
+	String PERF_INDEF = "Perfil Indefinido";
 	
 	
 	/*URL da Rest API*/
@@ -24,6 +27,9 @@ public interface URL {
 	String USER_CADASTRO_VEICULOS = USER_BASE + "/veiculos/cadastro.xhtml";
 	
 	String ADMIN_FILTRO_USUARIOS = ADMIN_BASE + "/usuarios/filtro.xhtml";
+	String ADMIN_CADASTRO_USUARIOS = ADMIN_BASE + "/usuarios/cadastro.xhtml";
+	String ADMIN_FILTRO_MODULOS = ADMIN_BASE + "/modulos/filtro.xhtml";
+	String ADMIN_CADASTRO_MODULOS = ADMIN_BASE + "/modulos/cadastro.xhtml";
 	String ADMIN_PAGINA_PRINCIPAL = ADMIN_FILTRO_USUARIOS;
 	
 			

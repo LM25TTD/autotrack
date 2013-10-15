@@ -10,5 +10,7 @@ public interface IModuloVeicularDao extends IGenericDao {
 	public List<ModuloVeicular> obterTodosPeloUsuario(Usuario usuario);
 	public List<ModuloVeicular> obterPeloSerialUsuario(String serialNum, Usuario usuario);
 	public ModuloVeicular obterPeloSerial(String serialNum);
-
+	public List<ModuloVeicular> obterTodos();
+	public List<ModuloVeicular> obterTodosPeloSerial(String serialNum);
+	
 }

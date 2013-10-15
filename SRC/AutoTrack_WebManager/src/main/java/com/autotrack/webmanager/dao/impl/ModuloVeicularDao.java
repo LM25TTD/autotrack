@@ -48,5 +48,26 @@ public class ModuloVeicularDao extends GenericDao implements IModuloVeicularDao 
 		query.setParameter("serialNum", serialNum);
 		return (ModuloVeicular) query.uniqueResult();
 	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<ModuloVeicular> obterTodos() {
+		Query query = this
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(
+						"from ModuloVeicular");
+		return query.list();
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<ModuloVeicular> obterTodosPeloSerial(String serialNum) {
+		Query query = this
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(
+						"from ModuloVeicular where numSerial like :serialNum");
+		query.setParameter("serialNum", "%"+serialNum+"%");
+		return query.list();
+	}
 
 }

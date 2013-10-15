@@ -8,62 +8,44 @@
 	<ui:define name="content">
 		<p:growl id="message" showDetail="true" sticky="true"
 			autoUpdate="true" />
-		<h1 class="title ui-widget-header ui-corner-all">Meus Veículos</h1>
+		<h1 class="title ui-widget-header ui-corner-all">Cadastro de
+			Módulos Veiculares</h1>
 		<div class="entry">
 			<h:form id="formCadastro">
 				<p:fieldset>
 					<h:panelGrid columns="2">
-						<h:outputText value="Placa: *" styleClass="label-class" />
+						<h:outputText value="Número de Serie: *" styleClass="label-class" />
 						<h:panelGrid columns="2" width="100%">
-							<p:inputMask id="placa"
-								value="#{controllerVeiculo.veiculoAtual.placa}" mask="aaa-9999" />
-							<p:message for="placa" styleClass="css-messagem-erro" />
+							<p:inputText id="serial"
+								value="#{controllerModuloVeicular.moduloVeicularAtual.numSerial}" />
+							<p:message for="serial" styleClass="css-messagem-erro" />
 						</h:panelGrid>
 
-						<h:outputText value="Marca: *" styleClass="label-class" />
+						<h:outputText value="Código de Acesso: *" styleClass="label-class" />
 						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="marca" size="30"
-								value="#{controllerVeiculo.veiculoAtual.marca}" />
-							<p:message for="marca" styleClass="css-messagem-erro" />
+							<p:inputText id="code" size="30"
+								value="#{controllerModuloVeicular.moduloVeicularAtual.codAcesso}" />
+							<p:message for="code" styleClass="css-messagem-erro" />
 						</h:panelGrid>
 
-						<h:outputText value="Modelo: *" styleClass="label-class" />
+						<h:outputText value="Número do Celular: *"
+							styleClass="label-class" />
 						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="modelo" size="30"
-								value="#{controllerVeiculo.veiculoAtual.modelo}" />
-							<p:message for="modelo" styleClass="css-messagem-erro" />
+							<p:inputMask id="celular" mask="(99)9999-9999" size="30"
+								value="#{controllerModuloVeicular.moduloVeicularAtual.numCelular}" />
+							<p:message for="celular" styleClass="css-messagem-erro" />
 						</h:panelGrid>
 
-
-						<h:outputText value="Cor: *" styleClass="label-class" />
-						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="cor" size="30"
-								value="#{controllerVeiculo.veiculoAtual.cor}" />
-							<p:message for="cor" styleClass="css-messagem-erro" />
-						</h:panelGrid>
-
-						<h:outputText value="Chassi: *" styleClass="label-class" />
-						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="chassi" size="60"
-								value="#{controllerVeiculo.veiculoAtual.chassi}" />
-							<p:message for="chassi" styleClass="css-messagem-erro" />
-						</h:panelGrid>
-
-						<h:outputText value="Ano: *" styleClass="label-class" />
-						<h:panelGrid columns="2" width="100%">
-							<p:inputMask id="ano"
-								value="#{controllerVeiculo.veiculoAtual.ano}" mask="9999" />
-							<p:message for="ano" styleClass="css-messagem-erro" />
-						</h:panelGrid>
 					</h:panelGrid>
 
 					<br />
 					* Campos obrigatórios
 					<br />
 					<br />
-					<p:commandButton value="Salvar e Fechar" ajax="false" action="#{controllerVeiculo.salvar}"/>
+					<p:commandButton value="Salvar e Fechar" ajax="false"
+						action="#{controllerModuloVeicular.salvar}" />
 					<p:commandButton value="Cancelar" immediate="true" ajax="false"
-						action="#{controllerVeiculo.cancelar}" />
+						action="#{controllerModuloVeicular.cancelar}" />
 
 				</p:fieldset>
 			</h:form>
