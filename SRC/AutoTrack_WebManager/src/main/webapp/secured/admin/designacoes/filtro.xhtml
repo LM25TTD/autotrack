@@ -30,7 +30,7 @@
         			</f:facet>
 					<p:column headerText="CPF">
 						<p:commandLink value="#{item.elemento.cpf}"
-							actionListener="#{controllerUsuario.prepararEdicao}"
+							actionListener="#{controllerUsuario.prepararEdicaoDesignacoes}"
 							action="cadastro" ajax="false">
 							<f:param name="elemento" value="#{item.elemento}" />
 						</p:commandLink>
@@ -38,14 +38,14 @@
 
 					<p:column headerText="Login">
 						<p:commandLink value="#{item.elemento.login}"
-							actionListener="#{controllerUsuario.prepararEdicao}"
+							actionListener="#{controllerUsuario.prepararEdicaoDesignacoes}"
 							action="cadastro" ajax="false">
 							<f:param name="elemento" value="#{item.elemento}" />
 						</p:commandLink>
 					</p:column>
 					<p:column headerText="Nome">
 						<p:commandLink value="#{item.elemento.nome}"
-							actionListener="#{controllerUsuario.prepararEdicao}"
+							actionListener="#{controllerUsuario.prepararEdicaoDesignacoes}"
 							action="cadastro" ajax="false">
 							<f:param name="elemento" value="#{item.elemento}" />
 						</p:commandLink>

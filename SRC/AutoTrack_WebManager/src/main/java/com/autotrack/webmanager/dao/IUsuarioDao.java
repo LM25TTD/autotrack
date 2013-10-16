@@ -2,6 +2,7 @@ package com.autotrack.webmanager.dao;
 
 import java.util.List;
 
+import com.autotrack.webmanager.model.ModuloVeicular;
 import com.autotrack.webmanager.model.Perfil;
 import com.autotrack.webmanager.model.Usuario;
 
@@ -13,6 +14,7 @@ public interface IUsuarioDao extends IGenericDao {
 	public List<Perfil> obterTodosPerfis();
 	public List<Usuario> obterTodosDesignar();
 	public List<Usuario> obterPorCPFDesignar(String cpf);
+	public List<ModuloVeicular> obterModulosLivresDesignacao();
 	
 	
 

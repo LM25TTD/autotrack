@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.autotrack.webmanager.dao.IUsuarioDao;
+import com.autotrack.webmanager.model.ModuloVeicular;
 import com.autotrack.webmanager.model.Perfil;
 import com.autotrack.webmanager.model.Usuario;
 
@@ -68,6 +69,17 @@ public class UsuarioDao extends GenericDao implements IUsuarioDao {
 		query.setParameter("cpf", "%" + cpf + "%");
 		query.setParameter("role", "ROLE_USER");
 		return query.list();
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<ModuloVeicular> obterModulosLivresDesignacao(){
+		
+		Query query = this
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery("from ModuloVeicular where dono = null");
+		return query.list();
+		
 	}
 
 }

@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import com.autotrack.webmanager.service.Menuable;
 
 @Entity
@@ -45,6 +48,7 @@ public class ModuloVeicular implements Serializable, Menuable {
 	private List<LogPosicao> posicoes;
 
 	@ManyToOne
+	@Cascade(CascadeType.ALL)
 	private Usuario dono;
 
 	@OneToOne

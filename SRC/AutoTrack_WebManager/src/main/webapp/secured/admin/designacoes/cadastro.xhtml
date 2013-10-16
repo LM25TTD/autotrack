@@ -3,6 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="/resources/templates/baseTemplateAdm.xhtml">
 
 	<ui:define name="content">
@@ -15,36 +16,117 @@
 				<p:fieldset>
 					<h:panelGrid columns="2">
 						<h:outputText value="CPF: " styleClass="label-class" />
-						<p:outputLabel 
-							value="#{controllerUsuario.usuarioAtual.cpf}" />
+						<p:outputLabel value="#{controllerUsuario.usuarioAtual.cpf}" />
 
 						<h:outputText value="Nome: " styleClass="label-class" />
-						<p:outputLabel 
-							value="#{controllerUsuario.usuarioAtual.nome}" />
+						<p:outputLabel value="#{controllerUsuario.usuarioAtual.nome}" />
 
 						<h:outputText value="Email: " styleClass="label-class" />
-						<p:outputLabel 
-							value="#{controllerUsuario.usuarioAtual.email}" />
+						<p:outputLabel value="#{controllerUsuario.usuarioAtual.email}" />
 
 						<h:outputText value="Número de Celular: " styleClass="label-class" />
-						<p:outputLabel 
+						<p:outputLabel
 							value="#{controllerUsuario.usuarioAtual.numCelular}" />
 
 						<h:outputText value="Login: " styleClass="label-class" />
-						<p:outputLabel 
-							value="#{controllerUsuario.usuarioAtual.login}" />
+						<p:outputLabel value="#{controllerUsuario.usuarioAtual.login}" />
 					</h:panelGrid>
+
+					<br />
+					<br />
+
+					<p:commandButton value="Incluir Módulo" ajax="true"
+						update=":moduloAddDialog" oncomplete="moduloAddWidget.show();" />
+
+					<p:dataTable id="modulosTable" var="item" paginator="true"
+						rows="10" paginatorPosition="bottom"
+						value="#{controllerUsuario.usuarioAtual.modulosDoUsuario}"
+						emptyMessage="Nenhum registro encontrado">
+						<f:facet name="header">  
+            			Módulos de Rastreamento
+        			</f:facet>
+
+						<p:column headerText="Número de Série">
+							<p:commandLink value="#{item.numSerial}" />
+						</p:column>
+
+						<p:column headerText="Número Celular">
+							<p:commandLink value="#{item.numCelular}" />
+						</p:column>
+
+						<p:column headerText="Ação" style="text-align:center;width:5%;">
+							<p:commandLink
+								actionListener="#{controllerUsuario.removerModuloDesignado}"
+								ajax="false" id="iconOnly" icon="ui-icon-disk" title="Remover">
+								<f:param name="elemento" value="#{item}" />
+								<p:graphicImage value="/resources/images/apagar.png" />
+								<p:confirm header="Confirmação"
+									message="Deseja realmente desassociar este módulo?"
+									icon="ui-icon-alert" />
+							</p:commandLink>
+							<p:confirmDialog global="true">
+								<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"
+									icon="ui-icon-check" ajax="true" />
+								<p:commandButton value="Não" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+						</p:column>
+					</p:dataTable>
 
 					<br />
 					<br />
 					<br />
 					<p:commandButton value="Salvar e Fechar" ajax="false"
-						action="#{controllerUsuario.salvar}" />
+						action="#{controllerUsuario.salvarDesignacoes}" />
 					<p:commandButton value="Cancelar" immediate="true" ajax="false"
 						action="#{controllerUsuario.cancelarDesignacoes}" />
 
 				</p:fieldset>
 			</h:form>
+
+			<p:dialog id="moduloAddDialog" header="Incluir Módulos"
+				widgetVar="moduloAddWidget" modal="true" resizable="false"
+				closable="true">
+				<h:form id="moduloAddForm">
+					<p:dataTable id="modulosDesignadosTable" var="item"
+						paginator="true" rows="10" paginatorPosition="bottom"
+						value="#{controllerUsuario.modulosDesignados}"
+						emptyMessage="Nenhum registro encontrado">
+						<f:facet name="header">  
+            			Módulos de Rastreamento
+        			</f:facet>
+						<p:column style="text-align:left;width:5%;">
+							<f:facet name="header">
+								<t:selectBooleanCheckbox id="chkTodos"
+									styleClass="cssComponente"
+									onclick="checkUnAll(document.formFiltro, this, 'chk')" />
+							</f:facet>
+							<h:selectBooleanCheckbox id="chk" value="#{item.selecionado}"
+								styleClass="cssComponente"
+								onclick="desmarcaCheckTodos(document.formFiltro, this, 'chkTodos')" />
+						</p:column>
+
+						<p:column headerText="Número de Série">
+							<p:commandLink value="#{item.elemento.numSerial}" ajax="false" />
+
+						</p:column>
+
+						<p:column headerText="Número Celular">
+							<p:commandLink value="#{item.elemento.numCelular}" ajax="false" />
+
+						</p:column>
+					</p:dataTable>
+					<p:commandButton value="Incluir Selecionados" ajax="true"
+						disabled="#{empty controllerUsuario.modulosDesignados}"
+						action="#{controllerUsuario.incluirModulosDesignados}"
+						update=":formCadastro, moduloAddForm" />
+					<p:commandButton value="Fechar" ajax="true"
+						onclick="moduloAddWidget.hide();" />
+
+				</h:form>
+			</p:dialog>
+
+
 		</div>
 	</ui:define>
 </ui:composition>

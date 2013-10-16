@@ -2,9 +2,10 @@ package com.autotrack.webmanager.control.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+
+import javassist.bytecode.analysis.Util;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -24,10 +25,10 @@ import org.springframework.stereotype.Controller;
 import com.autotrack.webmanager.constants.Messages;
 import com.autotrack.webmanager.constants.URL;
 import com.autotrack.webmanager.dao.IUsuarioDao;
+import com.autotrack.webmanager.model.ModuloVeicular;
 import com.autotrack.webmanager.model.Perfil;
 import com.autotrack.webmanager.model.PerfilUsuario;
 import com.autotrack.webmanager.model.Usuario;
-import com.autotrack.webmanager.model.Veiculo;
 import com.autotrack.webmanager.security.impl.AuthenticationService;
 import com.autotrack.webmanager.util.Crypto;
 import com.autotrack.webmanager.util.Linha;
@@ -52,6 +53,7 @@ public class ControllerUsuario implements Serializable {
 	private String realName;
 	private List<Linha<Usuario>> resultadoPesquisa;
 	private List<Linha<Usuario>> resultadoPesquisaDesignacoes;
+	private List<Linha<ModuloVeicular>> modulosDesignados;
 	private Usuario usuarioAtual;
 	private Perfil perfilUsuarioAtual;
 	private String cpfPesquisa;
@@ -60,6 +62,11 @@ public class ControllerUsuario implements Serializable {
 
 	@Autowired
 	private IUsuarioDao usuarioDao;
+
+	public void pesquisarModulosDesignados() {
+		modulosDesignados = Utils.mapearParaLinhas(usuarioDao
+				.obterModulosLivresDesignacao());
+	}
 
 	public boolean validarDados() {
 		boolean dadosValidados = true;
@@ -167,6 +174,28 @@ public class ControllerUsuario implements Serializable {
 		perfilUsuarioAtual = usuarioAtual.getPerfisUsuario().get(0).getPerfil();
 	}
 
+	public void removerModuloDesignado(ActionEvent event) {
+
+		ModuloVeicular moduloRemovido = ((ModuloVeicular) ((UIComponent) event
+				.getComponent().getChildren().get(0)).getAttributes().get(
+				"value"));
+		usuarioAtual.getModulosDoUsuario().remove(moduloRemovido);
+		modulosDesignados.add(new Linha<ModuloVeicular>(false, moduloRemovido));
+	}
+
+	public void prepararEdicaoDesignacoes(ActionEvent event) {
+
+		usuarioAtual = ((Usuario) ((UIComponent) event.getComponent()
+				.getChildren().get(0)).getAttributes().get("value"));
+		usuarioAtual = usuarioDao
+				.getObjeto(Usuario.class, usuarioAtual.getId());
+		if (usuarioAtual.getModulosDoUsuario() == null) {
+			usuarioAtual.setModulosDoUsuario(new ArrayList<ModuloVeicular>());
+		}
+		pesquisarModulosDesignados();
+
+	}
+
 	public String salvar() {
 
 		if (validarDados()) {
@@ -206,6 +235,40 @@ public class ControllerUsuario implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR,
 							Messages.ERRO, Messages.ERRO_CAMPOS_INVALIDOS));
+		}
+
+		return null;
+	}
+
+	public String salvarDesignacoes() {
+
+		try {
+			
+			List<ModuloVeicular> modulosUsuario = usuarioAtual.getModulosDoUsuario();
+
+			for (ModuloVeicular moduloVeicular : modulosUsuario) {
+				moduloVeicular.setDono(usuarioAtual);
+				usuarioDao.saveOrUpdate(moduloVeicular);
+			}	
+			
+			for (Linha<ModuloVeicular> moduloVeicular : modulosDesignados) {
+				moduloVeicular.getElemento().setDono(null);
+				usuarioDao.saveOrUpdate(moduloVeicular.getElemento());
+			}
+			
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							Messages.SUCESSO, Messages.SUCESSO_OPERACAO));
+			pesquisarDesignacoes();
+			return URL.ADMIN_FILTRO_DESIGNACOES;
+
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_FATAL,
+							Messages.ERRO, Messages.ERRO_OPERACAO));
+			e.printStackTrace();
 		}
 
 		return null;
@@ -273,6 +336,35 @@ public class ControllerUsuario implements Serializable {
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_FATAL,
 							Messages.ERRO, Messages.ERRO_EXCL_USUARIOS));
+			e.printStackTrace();
+		}
+		pesquisar();
+		return null;
+	}
+
+	public String incluirModulosDesignados() {
+		try {
+			List<Linha<ModuloVeicular>> elementosManipulados = new ArrayList<Linha<ModuloVeicular>>();
+
+			for (Linha<ModuloVeicular> modulo : modulosDesignados) {
+				if (modulo.isSelecionado()) {
+					elementosManipulados.add(modulo);
+				}
+			}
+
+			modulosDesignados.removeAll(elementosManipulados);
+			usuarioAtual.getModulosDoUsuario().addAll(
+					Utils.mapearParaElementos(elementosManipulados));
+
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO,
+							Messages.SUCESSO, Messages.SUCESSO_OPERACAO));
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_FATAL,
+							Messages.ERRO, Messages.ERRO_OPERACAO));
 			e.printStackTrace();
 		}
 		pesquisar();
@@ -472,6 +564,15 @@ public class ControllerUsuario implements Serializable {
 	public void setResultadoPesquisaDesignacoes(
 			List<Linha<Usuario>> resultadoPesquisaDesignacoes) {
 		this.resultadoPesquisaDesignacoes = resultadoPesquisaDesignacoes;
+	}
+
+	public List<Linha<ModuloVeicular>> getModulosDesignados() {
+		return modulosDesignados;
+	}
+
+	public void setModulosDesignados(
+			List<Linha<ModuloVeicular>> modulosDesignados) {
+		this.modulosDesignados = modulosDesignados;
 	}
 
 }
