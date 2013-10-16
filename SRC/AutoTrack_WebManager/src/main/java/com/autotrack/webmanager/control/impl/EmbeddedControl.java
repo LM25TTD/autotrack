@@ -6,7 +6,6 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.autotrack.webmanager.dao.IGenericDao;
 import com.autotrack.webmanager.dao.IModuloVeicularDao;
 import com.autotrack.webmanager.model.LogPosicao;
 import com.autotrack.webmanager.model.ModuloVeicular;
@@ -23,9 +22,6 @@ public class EmbeddedControl implements Serializable {
 	private static final String UNBLOCK = "UNBLOCK";
 
 	@Autowired
-	private IGenericDao genericDao;
-
-	@Autowired
 	private IModuloVeicularDao moduloVeicularDao;
 
 	public String inserirPosicao(EmbeddedRequest moduleRequest)
@@ -37,7 +33,7 @@ public class EmbeddedControl implements Serializable {
 		logPosicao.setLatitude(moduleRequest.getLatitude());
 		logPosicao.setLongitude(moduleRequest.getLongitude());
 		logPosicao.setModuloDeOrigem(modulo);
-		genericDao.save(logPosicao);
+		moduloVeicularDao.save(logPosicao);
 
 		if (modulo.isBloqueado())
 			throw new BlockException();

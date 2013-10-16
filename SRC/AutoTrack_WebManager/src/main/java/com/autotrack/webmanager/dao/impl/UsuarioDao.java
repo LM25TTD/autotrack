@@ -34,22 +34,40 @@ public class UsuarioDao extends GenericDao implements IUsuarioDao {
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Usuario> obterPorCPF(String cpf) {
-		Query query = this
-				.getSessionFactory()
-				.getCurrentSession()
-				.createQuery(
-						"from Usuario where cpf like :cpf");
-		query.setParameter("cpf", "%"+cpf+"%");
+		Query query = this.getSessionFactory().getCurrentSession()
+				.createQuery("from Usuario where cpf like :cpf");
+		query.setParameter("cpf", "%" + cpf + "%");
 		return query.list();
 	}
-	
+
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public List<Perfil> obterTodosPerfis() {
 		Query query = this.getSessionFactory().getCurrentSession()
 				.createQuery("from Perfil");
 		return query.list();
 	}
-	
-	
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<Usuario> obterTodosDesignar() {
+		Query query = this
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(
+						"select distinct p.usuario from PerfilUsuario p where p.perfil.nomePerfil like :role");
+		query.setParameter("role", "ROLE_USER");
+		return query.list();
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	public List<Usuario> obterPorCPFDesignar(String cpf) {
+		Query query = this
+				.getSessionFactory()
+				.getCurrentSession()
+				.createQuery(
+						"select distinct p.usuario from PerfilUsuario p where p.perfil.nomePerfil like :role and p.usuario.cpf like :cpf");
+		query.setParameter("cpf", "%" + cpf + "%");
+		query.setParameter("role", "ROLE_USER");
+		return query.list();
+	}
 
 }

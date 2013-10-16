@@ -11,6 +11,9 @@ public interface IUsuarioDao extends IGenericDao {
 	public List<Usuario> obterTodos();
 	public List<Usuario> obterPorCPF(String cpf);
 	public List<Perfil> obterTodosPerfis();
+	public List<Usuario> obterTodosDesignar();
+	public List<Usuario> obterPorCPFDesignar(String cpf);
+	
 	
 
 }

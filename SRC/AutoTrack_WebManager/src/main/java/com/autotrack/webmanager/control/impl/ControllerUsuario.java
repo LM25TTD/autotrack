@@ -51,6 +51,7 @@ public class ControllerUsuario implements Serializable {
 	private String message;
 	private String realName;
 	private List<Linha<Usuario>> resultadoPesquisa;
+	private List<Linha<Usuario>> resultadoPesquisaDesignacoes;
 	private Usuario usuarioAtual;
 	private Perfil perfilUsuarioAtual;
 	private String cpfPesquisa;
@@ -220,6 +221,17 @@ public class ControllerUsuario implements Serializable {
 		return null;
 	}
 
+	public String pesquisarDesignacoes() {
+		if (cpfPesquisa == null || cpfPesquisa.isEmpty()) {
+			resultadoPesquisaDesignacoes = Utils.mapearParaLinhas(usuarioDao
+					.obterTodosDesignar());
+		} else {
+			resultadoPesquisaDesignacoes = Utils.mapearParaLinhas(usuarioDao
+					.obterPorCPFDesignar(cpfPesquisa));
+		}
+		return null;
+	}
+
 	public String retornaPerfil(Perfil perfil) {
 		if (perfil.getNomePerfil().equals(URL.ROLE_ADMIN))
 			return URL.ADMINSITRADOR;
@@ -237,6 +249,12 @@ public class ControllerUsuario implements Serializable {
 		usuarioAtual = null;
 		pesquisar();
 		return URL.ADMIN_FILTRO_USUARIOS;
+	}
+
+	public String cancelarDesignacoes() {
+		usuarioAtual = null;
+		pesquisarDesignacoes();
+		return URL.ADMIN_FILTRO_DESIGNACOES;
 	}
 
 	public String excluir() {
@@ -445,6 +463,15 @@ public class ControllerUsuario implements Serializable {
 
 	public void setCsenha(String csenha) {
 		this.csenha = csenha;
+	}
+
+	public List<Linha<Usuario>> getResultadoPesquisaDesignacoes() {
+		return resultadoPesquisaDesignacoes;
+	}
+
+	public void setResultadoPesquisaDesignacoes(
+			List<Linha<Usuario>> resultadoPesquisaDesignacoes) {
+		this.resultadoPesquisaDesignacoes = resultadoPesquisaDesignacoes;
 	}
 
 }

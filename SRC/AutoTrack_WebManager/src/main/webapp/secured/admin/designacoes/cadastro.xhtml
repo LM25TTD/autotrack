@@ -8,62 +8,40 @@
 	<ui:define name="content">
 		<p:growl id="message" showDetail="true" sticky="true"
 			autoUpdate="true" />
-		<h1 class="title ui-widget-header ui-corner-all">Meus Veículos</h1>
+		<h1 class="title ui-widget-header ui-corner-all">Designar Módulos
+			ao Usuário</h1>
 		<div class="entry">
 			<h:form id="formCadastro">
 				<p:fieldset>
 					<h:panelGrid columns="2">
-						<h:outputText value="Placa: *" styleClass="label-class" />
-						<h:panelGrid columns="2" width="100%">
-							<p:inputMask id="placa"
-								value="#{controllerVeiculo.veiculoAtual.placa}" mask="aaa-9999" />
-							<p:message for="placa" styleClass="css-messagem-erro" />
-						</h:panelGrid>
+						<h:outputText value="CPF: " styleClass="label-class" />
+						<p:outputLabel 
+							value="#{controllerUsuario.usuarioAtual.cpf}" />
 
-						<h:outputText value="Marca: *" styleClass="label-class" />
-						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="marca" size="30"
-								value="#{controllerVeiculo.veiculoAtual.marca}" />
-							<p:message for="marca" styleClass="css-messagem-erro" />
-						</h:panelGrid>
+						<h:outputText value="Nome: " styleClass="label-class" />
+						<p:outputLabel 
+							value="#{controllerUsuario.usuarioAtual.nome}" />
 
-						<h:outputText value="Modelo: *" styleClass="label-class" />
-						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="modelo" size="30"
-								value="#{controllerVeiculo.veiculoAtual.modelo}" />
-							<p:message for="modelo" styleClass="css-messagem-erro" />
-						</h:panelGrid>
+						<h:outputText value="Email: " styleClass="label-class" />
+						<p:outputLabel 
+							value="#{controllerUsuario.usuarioAtual.email}" />
 
+						<h:outputText value="Número de Celular: " styleClass="label-class" />
+						<p:outputLabel 
+							value="#{controllerUsuario.usuarioAtual.numCelular}" />
 
-						<h:outputText value="Cor: *" styleClass="label-class" />
-						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="cor" size="30"
-								value="#{controllerVeiculo.veiculoAtual.cor}" />
-							<p:message for="cor" styleClass="css-messagem-erro" />
-						</h:panelGrid>
-
-						<h:outputText value="Chassi: *" styleClass="label-class" />
-						<h:panelGrid columns="2" width="100%">
-							<p:inputText id="chassi" size="60"
-								value="#{controllerVeiculo.veiculoAtual.chassi}" />
-							<p:message for="chassi" styleClass="css-messagem-erro" />
-						</h:panelGrid>
-
-						<h:outputText value="Ano: *" styleClass="label-class" />
-						<h:panelGrid columns="2" width="100%">
-							<p:inputMask id="ano"
-								value="#{controllerVeiculo.veiculoAtual.ano}" mask="9999" />
-							<p:message for="ano" styleClass="css-messagem-erro" />
-						</h:panelGrid>
+						<h:outputText value="Login: " styleClass="label-class" />
+						<p:outputLabel 
+							value="#{controllerUsuario.usuarioAtual.login}" />
 					</h:panelGrid>
 
 					<br />
-					* Campos obrigatórios
 					<br />
 					<br />
-					<p:commandButton value="Salvar e Fechar" ajax="false" action="#{controllerVeiculo.salvar}"/>
+					<p:commandButton value="Salvar e Fechar" ajax="false"
+						action="#{controllerUsuario.salvar}" />
 					<p:commandButton value="Cancelar" immediate="true" ajax="false"
-						action="#{controllerVeiculo.cancelar}" />
+						action="#{controllerUsuario.cancelarDesignacoes}" />
 
 				</p:fieldset>
 			</h:form>

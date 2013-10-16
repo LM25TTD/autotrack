@@ -25,8 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.autotrack.webmanager.dao.IGenericDao;
 
 @SuppressWarnings("all")
-@Repository("genericDao")
-public class GenericDao implements IGenericDao {
+public abstract class GenericDao implements IGenericDao {
 
 	@Resource(name = "sessionFactory")
 	private SessionFactory sessionFactory;
