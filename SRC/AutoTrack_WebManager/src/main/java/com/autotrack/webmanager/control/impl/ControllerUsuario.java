@@ -166,6 +166,94 @@ public class ControllerUsuario implements Serializable {
 		return dadosValidados;
 	}
 
+	public boolean validarMeusDados() {
+		boolean dadosValidados = true;
+
+		if ((usuarioAtual.getCpf() == null)
+				|| (usuarioAtual.getCpf().isEmpty())) {
+			FacesContext.getCurrentInstance().addMessage(
+					"formCadastro:cpf",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Messages.ERRO, Messages.CAMPO_OBRIGATORIO));
+			dadosValidados = false;
+		} else {
+
+			if (!ValidacaoUtil.validaCPF(usuarioAtual.getCpf())) {
+				FacesContext.getCurrentInstance().addMessage(
+						"formCadastro:cpf",
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								Messages.ERRO, Messages.CPF_INVALIDO));
+				dadosValidados = false;
+			}
+		}
+
+		if ((usuarioAtual.getNome() == null)
+				|| (usuarioAtual.getNome().isEmpty())) {
+			FacesContext.getCurrentInstance().addMessage(
+					"formCadastro:nome",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Messages.ERRO, Messages.CAMPO_OBRIGATORIO));
+			dadosValidados = false;
+		}
+
+		if ((usuarioAtual.getLogin() == null)
+				|| (usuarioAtual.getLogin().isEmpty())) {
+			FacesContext.getCurrentInstance().addMessage(
+					"formCadastro:login",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Messages.ERRO, Messages.CAMPO_OBRIGATORIO));
+			dadosValidados = false;
+		}
+
+		if ((usuarioAtual.getEmail() == null)
+				|| (usuarioAtual.getEmail().isEmpty())) {
+			FacesContext.getCurrentInstance().addMessage(
+					"formCadastro:email",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Messages.ERRO, Messages.CAMPO_OBRIGATORIO));
+			dadosValidados = false;
+		} else {
+			if (!ValidacaoUtil.validaEmail(usuarioAtual.getEmail())) {
+				FacesContext.getCurrentInstance().addMessage(
+						"formCadastro:email",
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								Messages.ERRO, Messages.EMAIL_INVALIDO));
+				dadosValidados = false;
+			}
+		}
+
+		if ((usuarioAtual.getNumCelular() == null)
+				|| (usuarioAtual.getNumCelular().isEmpty())) {
+			FacesContext.getCurrentInstance().addMessage(
+					"formCadastro:celular",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Messages.ERRO, Messages.CAMPO_OBRIGATORIO));
+			dadosValidados = false;
+		} else {
+			if (!ValidacaoUtil.validaTelefone(usuarioAtual.getNumCelular())) {
+				FacesContext.getCurrentInstance().addMessage(
+						"formCadastro:celular",
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								Messages.ERRO, Messages.CELULAR_INVALIDO));
+				dadosValidados = false;
+			}
+		}
+
+		if (!senha.isEmpty() || !csenha.isEmpty()) {
+			if (!senha.equals(csenha)) {
+				FacesContext.getCurrentInstance().addMessage(
+						"formCadastro:csenha",
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								Messages.ERRO, Messages.SENHAS_NEQ));
+				dadosValidados = false;
+			} else {
+				usuarioAtual.setSenha(Crypto.textToSHA1(senha));
+			}
+		}
+
+		return dadosValidados;
+	}
+
 	public void prepararEdicao(ActionEvent event) {
 
 		usuarioAtual = ((Usuario) ((UIComponent) event.getComponent()
@@ -240,22 +328,78 @@ public class ControllerUsuario implements Serializable {
 		return null;
 	}
 
+	public String prepararMeusDados() {
+
+		usuarioAtual = usuarioDao.obterPeloLogin(authenticationService
+				.getUsuarioLogado().getUsername());
+		usuarioDao.getRefresh(usuarioAtual);
+
+		if (usuarioAtual.getPerfisUsuario().get(0).getPerfil().getNomePerfil()
+				.equalsIgnoreCase(URL.ROLE_ADMIN)) {
+			return URL.ADMIN_MEUS_DADOS;
+		} else {
+			return URL.USER_MEUS_DADOS;
+		}
+
+	}
+
+	public String salvarMeusDados() {
+
+		if (validarMeusDados()) {
+
+			try {
+
+				usuarioDao.saveOrUpdate(usuarioAtual);
+
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO,
+								Messages.SUCESSO,
+								Messages.SUCESSO_SALVAR_USUARIO));
+				pesquisar();
+
+				if (usuarioAtual.getPerfisUsuario().get(0).getPerfil()
+						.getNomePerfil().equalsIgnoreCase(URL.ROLE_ADMIN)) {
+					return URL.ADMIN_FILTRO_USUARIOS;
+				} else {
+					return URL.USER_PAGINA_RASTREAMENTO;
+				}
+
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_FATAL,
+								Messages.ERRO, Messages.ERRO_SALVAR_USUARIO));
+				e.printStackTrace();
+			}
+
+		} else {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR,
+							Messages.ERRO, Messages.ERRO_CAMPOS_INVALIDOS));
+		}
+
+		return null;
+	}
+
 	public String salvarDesignacoes() {
 
 		try {
-			
-			List<ModuloVeicular> modulosUsuario = usuarioAtual.getModulosDoUsuario();
+
+			List<ModuloVeicular> modulosUsuario = usuarioAtual
+					.getModulosDoUsuario();
 
 			for (ModuloVeicular moduloVeicular : modulosUsuario) {
 				moduloVeicular.setDono(usuarioAtual);
 				usuarioDao.saveOrUpdate(moduloVeicular);
-			}	
-			
+			}
+
 			for (Linha<ModuloVeicular> moduloVeicular : modulosDesignados) {
 				moduloVeicular.getElemento().setDono(null);
 				usuarioDao.saveOrUpdate(moduloVeicular.getElemento());
 			}
-			
+
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -312,6 +456,20 @@ public class ControllerUsuario implements Serializable {
 		usuarioAtual = null;
 		pesquisar();
 		return URL.ADMIN_FILTRO_USUARIOS;
+	}
+
+	public String cancelarMeusDados() {
+		String retorno;
+
+		if (usuarioAtual.getPerfisUsuario().get(0).getPerfil().getNomePerfil()
+				.equalsIgnoreCase(URL.ROLE_ADMIN)) {
+			retorno = URL.ADMIN_FILTRO_USUARIOS;
+		} else {
+			retorno = URL.USER_PAGINA_RASTREAMENTO;
+		}
+
+		usuarioAtual = null;
+		return retorno;
 	}
 
 	public String cancelarDesignacoes() {

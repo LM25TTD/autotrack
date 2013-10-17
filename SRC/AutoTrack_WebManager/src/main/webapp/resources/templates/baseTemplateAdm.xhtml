@@ -21,10 +21,9 @@
 			href="#{request.contextPath}/resources/css/style.css" />
 		<link type="text/css" rel="stylesheet"
 			href="#{request.contextPath}/resources/css/syntaxhighlighter/syntaxhighlighter.css" />
-		<script 
+		<script
 			src="#{request.contextPath}/resources/javascript/controlecheckbox.js"></script>
-		<script 
-			src="#{request.contextPath}/resources/javascript/mascaras.js"></script>	
+		<script src="#{request.contextPath}/resources/javascript/mascaras.js"></script>
 
 		<ui:insert name="head"></ui:insert>
 
@@ -54,18 +53,28 @@
 						<li></li>
 						<li></li>
 						<li></li>
-						<li><h:commandLink action="#{controllerUsuario.logout}"
+						<li><p:commandLink
+								action="#{controllerUsuario.prepararMeusDados}"
 								styleClass="css-link-menu">
 								<h:graphicImage url="/resources/images/cadastros.png"
 									alt="Meus Dados" />
 								<h:outputText value="Meus Dados" />
-							</h:commandLink></li>
-						<li><h:commandLink action="#{controllerUsuario.logout}"
+							</p:commandLink></li>
+						<li><p:commandLink action="#{controllerUsuario.logout}"
 								styleClass="css-link-menu">
 								<h:graphicImage url="/resources/images/logout.png" alt="Sair" />
 								<h:outputText value="Sair" />
-							</h:commandLink></li>
+								<p:confirm header="Confirmação" message="Deseja realmente sair?"
+									icon="ui-icon-alert" />
+							</p:commandLink></li>
 					</ul>
+
+					<p:confirmDialog global="true">
+						<p:commandButton value="Sim" styleClass="ui-confirmdialog-yes"
+							icon="ui-icon-check" ajax="true" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
 				</div>
 			</h:form>
 

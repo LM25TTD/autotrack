@@ -32,6 +32,9 @@ public interface URL {
 	String ADMIN_CADASTRO_MODULOS = ADMIN_BASE + "/modulos/cadastro.xhtml";
 	String ADMIN_PAGINA_PRINCIPAL = ADMIN_FILTRO_USUARIOS;
 	String ADMIN_FILTRO_DESIGNACOES = ADMIN_BASE + "/designacoes/filtro.xhtml";
+	
+	String ADMIN_MEUS_DADOS = ADMIN_BASE + "/meus_dados/cadastro.xhtml";
+	String USER_MEUS_DADOS = USER_BASE + "/meus_dados/cadastro.xhtml";
 
 	
 	

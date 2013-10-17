@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/templates/baseTemplateAdm.xhtml">
+
+	<ui:define name="content">
+		<p:growl id="message" showDetail="true" sticky="true"
+			autoUpdate="true" />
+		<h1 class="title ui-widget-header ui-corner-all">Cadastro de
+			Usuário</h1>
+		<div class="entry">
+			<h:form id="formCadastro">
+				<p:fieldset>
+					<h:panelGrid columns="2">
+						<h:outputText value="CPF: " styleClass="label-class" />
+						<h:panelGrid columns="2" width="100%">
+							<p:inputMask id="cpf" size="30"
+								value="#{controllerUsuario.usuarioAtual.cpf}"
+								mask="999.999.999-99" />
+							<p:message for="cpf" styleClass="css-messagem-erro" />
+						</h:panelGrid>
+
+						<h:outputText value="Nome: *" styleClass="label-class" />
+						<h:panelGrid columns="2" width="100%">
+							<p:inputText id="nome" size="80"
+								value="#{controllerUsuario.usuarioAtual.nome}" />
+							<p:message for="nome" styleClass="css-messagem-erro" />
+						</h:panelGrid>
+
+						<h:outputText value="Email: *" styleClass="label-class" />
+						<h:panelGrid columns="2" width="100%">
+							<p:inputText id="email" size="30"
+								value="#{controllerUsuario.usuarioAtual.email}" />
+							<p:message for="email" styleClass="css-messagem-erro" />
+						</h:panelGrid>
+
+
+						<h:outputText value="Número de Celular: *"
+							styleClass="label-class" />
+						<h:panelGrid columns="2" width="100%">
+							<p:inputMask id="celular" mask="(99)9999-9999" size="30"
+								value="#{controllerUsuario.usuarioAtual.numCelular}" />
+							<p:message for="celular" styleClass="css-messagem-erro" />
+						</h:panelGrid>
+
+						<h:outputText value="Login: *" styleClass="label-class" />
+						<h:panelGrid columns="2" width="100%">
+							<p:inputText id="login" size="30"
+								value="#{controllerUsuario.usuarioAtual.login}" />
+							<p:message for="login" styleClass="css-messagem-erro" />
+						</h:panelGrid>
+
+						
+						<h:outputText value="Senha: " styleClass="label-class" />
+
+						<h:panelGrid columns="3" width="100%">
+							<h:panelGrid columns="2" width="100%">
+								<p:password id="senha" size="30"
+									value="#{controllerUsuario.senha}" />
+								<p:message for="senha" styleClass="css-messagem-erro" />
+							</h:panelGrid>
+							
+							<h:outputText value="Confirmar Senha: " styleClass="label-class" />
+							<h:panelGrid columns="2" width="100%">
+								<p:password id="csenha" size="30"
+									value="#{controllerUsuario.csenha}" />
+								<p:message for="csenha" styleClass="css-messagem-erro" />
+							</h:panelGrid>
+						</h:panelGrid>
+
+					</h:panelGrid>
+
+					<br />
+					* Campos obrigatórios
+					<br />
+					<br />
+					<p:commandButton value="Salvar e Fechar" ajax="false"
+						action="#{controllerUsuario.salvarMeusDados}" />
+					<p:commandButton value="Cancelar" immediate="true" ajax="false"
+						action="#{controllerUsuario.cancelarMeusDados}" />
+
+				</p:fieldset>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

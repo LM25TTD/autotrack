@@ -17,13 +17,13 @@ public class UsuarioDao extends GenericDao implements IUsuarioDao {
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	public Usuario obterPeloLogin(String login) {
-		Usuario usuario = (Usuario) this
+		Query query = this
 				.getSessionFactory()
 				.getCurrentSession()
 				.createQuery(
-						"from Usuario u where u.login like '%" + login + "%'")
-				.uniqueResult();
-		return usuario;
+						"from Usuario u where u.login like :login");
+		query.setParameter("login", login);
+		return (Usuario)query.uniqueResult();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
