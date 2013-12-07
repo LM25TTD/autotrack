@@ -21,12 +21,12 @@ import org.springframework.stereotype.Controller;
 
 import com.autotrack.webmanager.constants.Messages;
 import com.autotrack.webmanager.constants.URL;
-import com.autotrack.webmanager.dao.IUsuarioDao;
-import com.autotrack.webmanager.dao.IVeiculoDao;
-import com.autotrack.webmanager.model.LogPosicao;
-import com.autotrack.webmanager.model.ModuloVeicular;
-import com.autotrack.webmanager.model.Usuario;
-import com.autotrack.webmanager.model.Veiculo;
+import com.autotrack.webmanager.model.dao.IUsuarioDao;
+import com.autotrack.webmanager.model.dao.IVeiculoDao;
+import com.autotrack.webmanager.model.pojos.LogPosicao;
+import com.autotrack.webmanager.model.pojos.ModuloVeicular;
+import com.autotrack.webmanager.model.pojos.Usuario;
+import com.autotrack.webmanager.model.pojos.Veiculo;
 import com.autotrack.webmanager.security.impl.AuthenticationService;
 import com.autotrack.webmanager.util.Linha;
 import com.autotrack.webmanager.util.Utils;

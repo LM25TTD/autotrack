@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.autotrack.webmanager.dao.IUsuarioDao;
-import com.autotrack.webmanager.model.Usuario;
+import com.autotrack.webmanager.model.dao.IUsuarioDao;
+import com.autotrack.webmanager.model.pojos.Usuario;
 
 
 @Component("userDetailsService")

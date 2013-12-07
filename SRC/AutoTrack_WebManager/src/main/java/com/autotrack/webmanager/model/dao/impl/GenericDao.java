@@ -1,4 +1,4 @@
-package com.autotrack.webmanager.dao.impl;
+package com.autotrack.webmanager.model.dao.impl;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.autotrack.webmanager.dao.IGenericDao;
+import com.autotrack.webmanager.model.dao.IGenericDao;
 
 @SuppressWarnings("all")
 public abstract class GenericDao implements IGenericDao {

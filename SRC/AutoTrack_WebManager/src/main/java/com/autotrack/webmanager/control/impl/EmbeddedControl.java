@@ -6,9 +6,9 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.autotrack.webmanager.dao.IModuloVeicularDao;
-import com.autotrack.webmanager.model.LogPosicao;
-import com.autotrack.webmanager.model.ModuloVeicular;
+import com.autotrack.webmanager.model.dao.IModuloVeicularDao;
+import com.autotrack.webmanager.model.pojos.LogPosicao;
+import com.autotrack.webmanager.model.pojos.ModuloVeicular;
 import com.autotrack.webmanager.restapi.BlockException;
 import com.autotrack.webmanager.restapi.embedded.EmbeddedRequest;
 

@@ -1,9 +1,9 @@
-package com.autotrack.webmanager.dao;
+package com.autotrack.webmanager.model.dao;
 
 import java.util.List;
 
-import com.autotrack.webmanager.model.Usuario;
-import com.autotrack.webmanager.model.Veiculo;
+import com.autotrack.webmanager.model.pojos.Usuario;
+import com.autotrack.webmanager.model.pojos.Veiculo;
 
 public interface IVeiculoDao extends IGenericDao {
 	public List<Veiculo> obterVeiculosPorUsuario(Usuario usuario);

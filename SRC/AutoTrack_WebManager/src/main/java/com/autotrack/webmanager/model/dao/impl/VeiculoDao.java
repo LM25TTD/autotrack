@@ -1,4 +1,4 @@
-package com.autotrack.webmanager.dao.impl;
+package com.autotrack.webmanager.model.dao.impl;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.autotrack.webmanager.dao.IVeiculoDao;
-import com.autotrack.webmanager.model.Usuario;
-import com.autotrack.webmanager.model.Veiculo;
+import com.autotrack.webmanager.model.dao.IVeiculoDao;
+import com.autotrack.webmanager.model.pojos.Usuario;
+import com.autotrack.webmanager.model.pojos.Veiculo;
 
 @Repository
 public class VeiculoDao extends GenericDao implements IVeiculoDao {

@@ -1,4 +1,4 @@
-package com.autotrack.webmanager.dao;
+package com.autotrack.webmanager.model.dao;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;

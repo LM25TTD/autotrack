@@ -1,4 +1,4 @@
-package com.autotrack.webmanager.model;
+package com.autotrack.webmanager.model.pojos;
 
 import java.io.Serializable;
 
